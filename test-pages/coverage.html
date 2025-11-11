@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autofill Coverage Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: #f4f6f8;
+    }
+    h1 {
+      margin-bottom: 0;
+    }
+    p {
+      margin-top: 4px;
+      color: #555;
+    }
+    section {
+      margin-top: 32px;
+      padding: 24px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+    section + section {
+      margin-top: 24px;
+    }
+    fieldset {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid #d9e2ec;
+      border-radius: 12px;
+    }
+    fieldset legend {
+      font-weight: 600;
+      padding: 0 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #1f2933;
+      font-weight: 600;
+    }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd2d9;
+      background: #fff;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .note {
+      font-size: 13px;
+      color: #829ab1;
+      margin-bottom: 24px;
+    }
+    .group-title {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #334e68;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .section-header span {
+      color: #7b8794;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Autofill Coverage Playground</h1>
+  <p class="note">
+    Попробуй хоткеи с разными профилями. Часть полей покрывается стандартными ключами, часть требует ручных правил.
+  </p>
+
+  <section id="personal">
+    <div class="section-header">
+      <h2>Personal & Identity</h2>
+      <span>Должно покрываться базовой логикой</span>
+    </div>
+    <fieldset>
+      <legend>Standard</legend>
+      <div class="grid">
+        <div>
+          <label for="full-name">Full Name</label>
+          <input id="full-name" name="fullname" placeholder="John Michael Doe" autocomplete="name" />
+        </div>
+        <div>
+          <label for="first-name">First Name</label>
+          <input id="first-name" name="first_name" placeholder="John" autocomplete="given-name" />
+        </div>
+        <div>
+          <label for="middle-name">Middle Name</label>
+          <input id="middle-name" name="patronymic" placeholder="Michael" />
+        </div>
+        <div>
+          <label for="last-name">Last Name</label>
+          <input id="last-name" name="surname" placeholder="Doe" autocomplete="family-name" />
+        </div>
+        <div>
+          <label for="nickname">Nickname</label>
+          <input id="nickname" name="nickname" placeholder="Johnny" />
+        </div>
+        <div>
+          <label for="display-name">Display Name</label>
+          <input id="display-name" name="displayname" placeholder="John D." />
+        </div>
+        <div>
+          <label for="dob">Date of Birth</label>
+          <input id="dob" name="dob" type="date" autocomplete="bday" />
+        </div>
+        <div>
+          <label for="birthplace">Birth Place</label>
+          <input id="birthplace" name="birthplace" placeholder="Amsterdam" />
+        </div>
+        <div>
+          <label for="gender">Gender</label>
+          <input id="gender" name="gender" placeholder="Male" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>IDs & Documents</legend>
+      <div class="grid">
+        <div>
+          <label for="passport">Passport Number</label>
+          <input id="passport" name="passport" placeholder="123456789" />
+        </div>
+        <div>
+          <label for="national-id">National ID (SSN)</label>
+          <input id="national-id" name="ssn" placeholder="123-45-6789" />
+        </div>
+        <div>
+          <label for="tax-id">Tax ID</label>
+          <input id="tax-id" name="taxid" placeholder="TIN-123456" />
+        </div>
+        <div>
+          <label for="vat">VAT Number</label>
+          <input id="vat" name="vat_number" placeholder="NL123456789B01" />
+        </div>
+        <div>
+          <label for="driver-license">Driver License</label>
+          <input id="driver-license" name="license" placeholder="DOEJON01" />
+        </div>
+        <div>
+          <label for="student-id">Student ID</label>
+          <input id="student-id" name="studentId" placeholder="S123456" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="contact">
+    <div class="section-header">
+      <h2>Emails & Phones</h2>
+      <span>Проверяем разные названия и атрибуты</span>
+    </div>
+    <fieldset>
+      <legend>Emails</legend>
+      <div class="grid">
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="john@doe.com" autocomplete="email" />
+        </div>
+        <div>
+          <label for="work-email">Work Email</label>
+          <input id="work-email" name="work_email" type="email" placeholder="john@company.com" />
+        </div>
+        <div>
+          <label for="alt-email">Backup Mail</label>
+          <input id="alt-email" name="backup_mail" placeholder="john@gmail.com" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Phones</legend>
+      <div class="grid">
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="+1 555 123 4567" autocomplete="tel" />
+        </div>
+        <div>
+          <label for="mobile">Mobile Number</label>
+          <input id="mobile" name="mobile" placeholder="555-234-5678" />
+        </div>
+        <div>
+          <label for="cell">Cell</label>
+          <input id="cell" name="cell" placeholder="(555) 345-6789" />
+        </div>
+        <div>
+          <label for="contact-number">Contact Number</label>
+          <input id="contact-number" name="contact_number" placeholder="(0)20-1234567" />
+        </div>
+        <div>
+          <label for="whatsapp">WhatsApp</label>
+          <input id="whatsapp" name="whatsapp" placeholder="+1 555 444 3333" />
+        </div>
+        <div>
+          <label for="fax">Fax</label>
+          <input id="fax" name="fax" placeholder="+1 555 987 6543" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="address">
+    <div class="section-header">
+      <h2>Address Variants</h2>
+      <span>С разными комбинациями label/name/autocomplete</span>
+    </div>
+    <fieldset>
+      <legend>Primary Address</legend>
+      <div class="grid">
+        <div>
+          <label for="street">Street Address</label>
+          <input id="street" name="street_address" placeholder="221B Baker Street" autocomplete="street-address" />
+        </div>
+        <div>
+          <label for="address-line1">Address Line 1</label>
+          <input id="address-line1" name="address_line1" placeholder="Apartment 4A" />
+        </div>
+        <div>
+          <label for="address-line2">Address Line 2</label>
+          <input id="address-line2" name="addr2" placeholder="Floor 5" />
+        </div>
+        <div>
+          <label for="city">City</label>
+          <input id="city" name="municipality" placeholder="London" autocomplete="address-level2" />
+        </div>
+        <div>
+          <label for="region">State / Province</label>
+          <input id="region" name="province" placeholder="Greater London" autocomplete="address-level1" />
+        </div>
+        <div>
+          <label for="postal">ZIP / Postal</label>
+          <input id="postal" name="postal_code" placeholder="NW16XE" autocomplete="postal-code" />
+        </div>
+        <div>
+          <label for="country">Country</label>
+          <input id="country" name="country" placeholder="United Kingdom" autocomplete="country-name" />
+        </div>
+        <div>
+          <label for="country-select">Country (select)</label>
+          <select id="country-select" name="country_select">
+            <option value="">Select country...</option>
+            <option value="GB">United Kingdom</option>
+            <option value="US">United States</option>
+            <option value="DE">Germany</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Secondary Address / Edge Cases</legend>
+      <div class="grid">
+        <div>
+          <label for="addr3">Address line 3</label>
+          <input id="addr3" name="address_line3" placeholder="Care of" />
+        </div>
+        <div>
+          <label for="apartment">Apartment / Unit</label>
+          <input id="apartment" name="apt" placeholder="Unit 12" />
+        </div>
+        <div>
+          <label for="building">Building</label>
+          <input id="building" name="building" placeholder="Block C" />
+        </div>
+        <div>
+          <label for="state-code">State Code</label>
+          <input id="state-code" name="state_code" placeholder="NY" />
+        </div>
+        <div>
+          <label for="pobox">PO Box</label>
+          <input id="pobox" name="pobox" placeholder="PO Box 123" />
+        </div>
+        <div>
+          <label for="geolocation">Geolocation / LatLong</label>
+          <input id="geolocation" name="latlng" placeholder="51.5237° N, 0.1585° W" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="work">
+    <div class="section-header">
+      <h2>Professional & Company</h2>
+      <span>Основные и дополнительные поля</span>
+    </div>
+    <fieldset>
+      <legend>Work</legend>
+      <div class="grid">
+        <div>
+          <label for="company">Company</label>
+          <input id="company" name="company_name" placeholder="ACME Inc." autocomplete="organization" />
+        </div>
+        <div>
+          <label for="department">Department</label>
+          <input id="department" name="department" placeholder="Growth" />
+        </div>
+        <div>
+          <label for="team">Team</label>
+          <input id="team" name="team" placeholder="Activation" />
+        </div>
+        <div>
+          <label for="job-title">Job Title</label>
+          <input id="job-title" name="job_title" placeholder="Senior Growth Manager" autocomplete="organization-title" />
+        </div>
+        <div>
+          <label for="work-email">Work Email</label>
+          <input id="work-email" name="company_email" placeholder="john@company.com" />
+        </div>
+        <div>
+          <label for="work-phone">Work Phone</label>
+          <input id="work-phone" name="company_phone" placeholder="+1 555 777 8888" />
+        </div>
+        <div>
+          <label for="manager">Manager</label>
+          <input id="manager" name="manager" placeholder="Jane Smith" />
+        </div>
+        <div>
+          <label for="linkedin">LinkedIn URL</label>
+          <input id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/johndoe" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="social">
+    <div class="section-header">
+      <h2>Social Profiles & Handles</h2>
+      <span>Тест custom fields и AI</span>
+    </div>
+    <fieldset>
+      <legend>AI Test Fields</legend>
+      <div class="grid">
+        <div>
+          <label for="usr-mail">User Contact (AI test)</label>
+          <input id="usr-mail" name="usr_mail" placeholder="Your contact" />
+        </div>
+        <div>
+          <label for="contact-info">Contact Info (AI test)</label>
+          <input id="contact-info" name="contact_info" placeholder="email or phone" />
+        </div>
+      </div>
+    </fieldset>
+    
+    <fieldset>
+      <legend>Social Profiles</legend>
+      <div class="grid">
+        <div>
+          <label for="github">GitHub</label>
+          <input id="github" name="github_username" placeholder="johndoe" />
+        </div>
+        <div>
+          <label for="telegram">Telegram</label>
+          <input id="telegram" name="telegram_handle" placeholder="@john" />
+        </div>
+        <div>
+          <label for="telegram-url">Telegram URL</label>
+          <input id="telegram-url" name="telegram_url" placeholder="https://t.me/john" />
+        </div>
+        <div>
+          <label for="twitter">Twitter</label>
+          <input id="twitter" name="twitter" placeholder="@john_doe" />
+        </div>
+        <div>
+          <label for="facebook">Facebook</label>
+          <input id="facebook" name="facebook" placeholder="john.doe" />
+        </div>
+        <div>
+          <label for="instagram">Instagram</label>
+          <input id="instagram" name="instagram" placeholder="@johndoe" />
+        </div>
+        <div>
+          <label for="tiktok">TikTok</label>
+          <input id="tiktok" name="tiktok" placeholder="@johndoe" />
+        </div>
+        <div>
+          <label for="youtube">YouTube</label>
+          <input id="youtube" name="youtube" placeholder="JohnDoeChannel" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="files">
+    <div class="section-header">
+      <h2>File Uploads</h2>
+      <span>Тест автозаполнения файлов (Base64)</span>
+    </div>
+    <fieldset>
+      <legend>Documents</legend>
+      <div class="grid">
+        <div>
+          <label for="resume-upload">Upload Resume/CV</label>
+          <input id="resume-upload" name="resume" type="file" accept=".pdf,.doc,.docx" />
+        </div>
+        <div>
+          <label for="cover-letter">Cover Letter</label>
+          <input id="cover-letter" name="cover_letter" type="file" accept=".pdf,.doc,.docx,.txt" />
+        </div>
+        <div>
+          <label for="portfolio">Portfolio</label>
+          <input id="portfolio" name="portfolio" type="file" accept=".pdf,.zip" />
+        </div>
+        <div>
+          <label for="document">Any Document</label>
+          <input id="document" name="document" type="file" />
+        </div>
+        <div>
+          <label for="avatar">Profile Picture</label>
+          <input id="avatar" name="avatar" type="file" accept="image/*" />
+        </div>
+        <div>
+          <label for="attachment">Attachment</label>
+          <input id="attachment" name="attachment" type="file" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="payment">
+    <div class="section-header">
+      <h2>Payment & Finance</h2>
+      <span>Custom fields для платёжных данных</span>
+    </div>
+    <fieldset>
+      <legend>Cards & Banking</legend>
+      <div class="grid">
+        <div>
+          <label for="cardholder">Card Holder Name</label>
+          <input id="cardholder" name="card_holder" placeholder="JOHN DOE" />
+        </div>
+        <div>
+          <label for="cardnumber">Card Number</label>
+          <input id="cardnumber" name="card_number" placeholder="4111 1111 1111 1111" />
+        </div>
+        <div>
+          <label for="card-expiry">Expiry Date</label>
+          <input id="card-expiry" name="card_exp" placeholder="12/25" />
+        </div>
+        <div>
+          <label for="cvv">CVV</label>
+          <input id="cvv" name="cvv" type="password" placeholder="123" />
+        </div>
+        <div>
+          <label for="iban">IBAN</label>
+          <input id="iban" name="iban" placeholder="DE89 3704 0044 0532 0130 00" />
+        </div>
+        <div>
+          <label for="swift">SWIFT/BIC</label>
+          <input id="swift" name="swift" placeholder="COBADEFFXXX" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="auth">
+    <div class="section-header">
+      <h2>Authentication & Security</h2>
+      <span>Пароли и секретные поля</span>
+    </div>
+    <fieldset>
+      <legend>Login Forms</legend>
+      <div class="grid">
+        <div>
+          <label for="username">Username</label>
+          <input id="username" name="username" placeholder="johndoe" autocomplete="username" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <div>
+          <label for="new-password">New Password</label>
+          <input id="new-password" name="new_password" type="password" placeholder="••••••••" autocomplete="new-password" />
+        </div>
+        <div>
+          <label for="confirm-password">Confirm Password</label>
+          <input id="confirm-password" name="confirm_password" type="password" placeholder="••••••••" />
+        </div>
+        <div>
+          <label for="pin">PIN Code</label>
+          <input id="pin" name="pin" type="password" placeholder="1234" maxlength="4" />
+        </div>
+        <div>
+          <label for="security-answer">Security Question Answer</label>
+          <input id="security-answer" name="security_answer" placeholder="Mother's maiden name" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="edge-cases">
+    <div class="section-header">
+      <h2>Edge Cases & Exotic Fields</h2>
+      <span>Проверка сложных сценариев</span>
+    </div>
+    <fieldset>
+      <legend>Unusual Naming</legend>
+      <div class="grid">
+        <div>
+          <label for="x1">Field X1 (cryptic name)</label>
+          <input id="x1" name="x1" placeholder="email?" />
+        </div>
+        <div>
+          <label for="field-a">Field A (generic)</label>
+          <input id="field-a" name="field_a" placeholder="phone?" />
+        </div>
+        <div>
+          <label for="data">Data (ambiguous)</label>
+          <input id="data" name="data" placeholder="any value" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Multiple Same Types</legend>
+      <div class="grid">
+        <div>
+          <label for="email1">Email 1</label>
+          <input id="email1" name="email1" type="email" />
+        </div>
+        <div>
+          <label for="email2">Email 2</label>
+          <input id="email2" name="email2" type="email" />
+        </div>
+        <div>
+          <label for="phone1">Phone 1</label>
+          <input id="phone1" name="phone1" type="tel" />
+        </div>
+        <div>
+          <label for="phone2">Phone 2</label>
+          <input id="phone2" name="phone2" type="tel" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Special Inputs</legend>
+      <div class="grid">
+        <div>
+          <label for="color-picker">Favorite Color</label>
+          <input id="color-picker" name="color" type="color" />
+        </div>
+        <div>
+          <label for="range">Age Range</label>
+          <input id="range" name="age" type="range" min="18" max="100" />
+        </div>
+        <div>
+          <label for="number">Number Input</label>
+          <input id="number" name="quantity" type="number" placeholder="123" />
+        </div>
+        <div>
+          <label for="checkbox">Accept Terms</label>
+          <input id="checkbox" name="terms" type="checkbox" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>No Labels (nearby text only)</legend>
+      <div class="grid">
+        <div>
+          Name: <input name="name_no_label" placeholder="Enter your name" />
+        </div>
+        <div>
+          Email: <input name="email_no_label" type="email" />
+        </div>
+        <div>
+          Phone: <input name="phone_no_label" type="tel" />
+        </div>
+      </div>
+    </fieldset>
+  </section>
+
+  <section id="textarea">
+    <div class="section-header">
+      <h2>Text Areas</h2>
+      <span>Multiline fields</span>
+    </div>
+    <fieldset>
+      <legend>Long Text</legend>
+      <div class="grid">
+        <div>
+          <label for="bio">Biography</label>
+          <textarea id="bio" name="bio" placeholder="Tell us about yourself..."></textarea>
+        </div>
+        <div>
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="Project description"></textarea>
+        </div>
+        <div>
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" placeholder="Additional notes"></textarea>
+        </div>
+        <div>
+          <label for="comments">Comments</label>
+          <textarea id="comments" name="comments" placeholder="Your feedback"></textarea>
+        </div>
+      </div>
+    </fieldset>
+  </section>
+</body>
+</html>

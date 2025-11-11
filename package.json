@@ -1,0 +1,45 @@
+{
+  "name": "autofil-extension",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier -w ."
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@mantine/core": "^7.13.1",
+    "@mantine/hooks": "^7.13.1",
+    "@mantine/notifications": "^7.13.1",
+    "i18n-iso-countries": "^7.8.0",
+    "libphonenumber-js": "^1.11.13",
+    "mitt": "^3.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "uuid": "^9.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.269",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
+    "@vitejs/plugin-react": "^5.1.0",
+    "eslint": "^9.10.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.46.4",
+    "wxt": "^0.18.7"
+  }
+}
