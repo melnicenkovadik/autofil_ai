@@ -3,13 +3,14 @@ import type { CanonicalKey } from '@shared/types/profile';
 import { CANONICAL_FIELDS } from '@shared/constants/canonical-fields';
 import { addRuleForElement } from './record';
 import { logger } from '@shared/utils/logger';
+import { getTranslation } from '@shared/utils/i18n-content';
 
 type NoMatchDetail = {
   element: InputLike;
 };
 
-const DEFAULT_MESSAGE = '⌥⇧I to fill field • ⌥⇧F to fill form';
-const NO_MATCH_MESSAGE = 'No data for this field. Add an autofill rule?';
+let DEFAULT_MESSAGE = '⌥⇧I to fill field • ⌥⇧F to fill form';
+let NO_MATCH_MESSAGE = 'No data for this field. Add an autofill rule?';
 
 let shadowHost: HTMLDivElement | null = null;
 let tooltip: HTMLDivElement | null = null;
@@ -24,7 +25,11 @@ let pendingElement: InputLike | null = null;
 /**
  * Initialize hover UI system
  */
-export function initHoverUI(): void {
+export async function initHoverUI(): Promise<void> {
+  // Load translations
+  DEFAULT_MESSAGE = await getTranslation('content.hotkeyHint');
+  NO_MATCH_MESSAGE = await getTranslation('content.noDataForField');
+  
   // Listen to focus events on the page
   document.addEventListener('focusin', handleFocus, true);
   document.addEventListener('focusout', handleBlur, true);
@@ -33,6 +38,18 @@ export function initHoverUI(): void {
   // Hide tooltip on scroll
   window.addEventListener('scroll', hideTooltip, true);
   document.addEventListener('scroll', hideTooltip, true);
+  
+  // Update button text
+  if (addButton) {
+    getTranslation('content.addToAutofill').then(text => {
+      if (addButton) addButton.textContent = text;
+    });
+  }
+  
+  // Update message span if already created
+  if (messageSpan) {
+    messageSpan.textContent = DEFAULT_MESSAGE;
+  }
 }
 
 /**
@@ -72,7 +89,17 @@ function showTooltip(target: HTMLElement): void {
     createShadowHost();
   }
   
-  if (!tooltip) return;
+  if (!tooltip || !messageSpan) return;
+  
+  // Update message text in case translation was loaded after creation
+  // Only update if it's still the default message (not changed by showRulePrompt)
+  const currentText = messageSpan.textContent || '';
+  if (DEFAULT_MESSAGE && 
+      (currentText === '⌥⇧I to fill field • ⌥⇧F to fill form' || 
+       currentText === DEFAULT_MESSAGE ||
+       currentText.includes('⌥⇧I'))) {
+    messageSpan.textContent = DEFAULT_MESSAGE;
+  }
   
   const rect = target.getBoundingClientRect();
   
@@ -135,11 +162,13 @@ function createShadowHost(): void {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   `;
   messageSpan = document.createElement('span');
-  messageSpan.textContent = DEFAULT_MESSAGE;
+  messageSpan.textContent = DEFAULT_MESSAGE || '⌥⇧I to fill field • ⌥⇧F to fill form';
   tooltip.appendChild(messageSpan);
 
   addButton = document.createElement('button');
-  addButton.textContent = 'Add to Autofill';
+  getTranslation('content.addToAutofill').then(text => {
+    if (addButton) addButton.textContent = text;
+  });
   addButton.style.cssText = `
     margin-top: 8px;
     background: #0969ff;
@@ -152,7 +181,7 @@ function createShadowHost(): void {
     display: none;
   `;
   addButton.addEventListener('click', () => {
-    showRulePrompt(true);
+    void showRulePrompt(true);
   });
   tooltip.appendChild(addButton);
 
@@ -173,12 +202,15 @@ function createShadowHost(): void {
     color: white;
     font-size: 12px;
   `;
-  for (const field of CANONICAL_FIELDS) {
-    const option = document.createElement('option');
-    option.value = field.key;
-    option.textContent = field.label;
-    fieldSelect.appendChild(option);
-  }
+  // Load translated field labels asynchronously
+  (async () => {
+    for (const field of CANONICAL_FIELDS) {
+      const option = document.createElement('option');
+      option.value = field.key;
+      option.textContent = await getTranslation(`fields.${field.key}`);
+      fieldSelect.appendChild(option);
+    }
+  })();
   formContainer.appendChild(fieldSelect);
 
   const actionRow = document.createElement('div');
@@ -212,7 +244,7 @@ function createShadowHost(): void {
   `;
   cancelButton.addEventListener('click', (event) => {
     event.preventDefault();
-    showRulePrompt(false);
+    void showRulePrompt(false);
   });
 
   actionRow.appendChild(saveButton);
@@ -272,9 +304,10 @@ function handleNoMatch(event: CustomEvent<NoMatchDetail>): void {
   pendingElement = target;
 }
 
-function showRulePrompt(showForm: boolean): void {
+async function showRulePrompt(showForm: boolean): Promise<void> {
   if (!messageSpan || !addButton || !formContainer) return;
-  messageSpan.textContent = showForm ? 'Select a field to map' : NO_MATCH_MESSAGE;
+  const text = showForm ? await getTranslation('content.selectFieldToMap') : NO_MATCH_MESSAGE;
+  messageSpan.textContent = text;
   addButton.style.display = showForm ? 'none' : 'block';
   formContainer.style.display = showForm ? 'flex' : 'none';
   if (showForm && fieldSelect) {
@@ -284,7 +317,9 @@ function showRulePrompt(showForm: boolean): void {
 
 function resetRulePrompt(): void {
   pendingElement = null;
-  if (messageSpan) messageSpan.textContent = DEFAULT_MESSAGE;
+  if (messageSpan) {
+    messageSpan.textContent = DEFAULT_MESSAGE || '⌥⇧I to fill field • ⌥⇧F to fill form';
+  }
   if (addButton) addButton.style.display = 'none';
   if (formContainer) formContainer.style.display = 'none';
 }

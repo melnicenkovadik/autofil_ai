@@ -31,3 +31,18 @@ export const CANONICAL_FIELDS: CanonicalFieldDefinition[] = [
   { key: 'gender', label: 'Gender', group: 'Other' },
   { key: 'password', label: 'Password', group: 'Security' },
 ];
+
+/**
+ * Get translated canonical fields
+ * For React components, use useTranslation hook and call this function
+ * For non-React contexts, use getTranslation from i18n-content
+ */
+export function getTranslatedCanonicalFields(
+  t: (key: string) => string
+): CanonicalFieldDefinition[] {
+  return CANONICAL_FIELDS.map(field => ({
+    key: field.key,
+    label: t(`fields.${field.key}`),
+    group: t(`fields.groups.${field.group}`),
+  }));
+}

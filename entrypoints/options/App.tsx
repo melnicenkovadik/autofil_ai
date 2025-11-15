@@ -1,21 +1,23 @@
 import React from 'react';
 import { Container, Tabs, Title, Space } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import ProfilesTab from './components/ProfilesTab';
 import SettingsTab from './components/SettingsTab';
 import ImportExportTab from './components/ImportExportTab';
 
 export default function App() {
+  const { t } = useTranslation();
   return (
     <Container size="xl" py="xl" px="md" style={{ minHeight: '100vh', width: '100%', maxWidth: '1400px' }}>
       <Title order={1} mb="lg">
-        Autofill Settings
+        {t('app.autofillSettings')}
       </Title>
 
       <Tabs defaultValue="profiles">
         <Tabs.List>
-          <Tabs.Tab value="profiles">Profiles</Tabs.Tab>
-          <Tabs.Tab value="settings">Settings</Tabs.Tab>
-          <Tabs.Tab value="import-export">Import/Export</Tabs.Tab>
+          <Tabs.Tab value="profiles">{t('app.profiles')}</Tabs.Tab>
+          <Tabs.Tab value="settings">{t('app.settings')}</Tabs.Tab>
+          <Tabs.Tab value="import-export">{t('app.importExport')}</Tabs.Tab>
         </Tabs.List>
 
         <Space h="md" />

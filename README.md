@@ -106,12 +106,17 @@ The packaged extension will be in `.output/` directory.
 - **OpenAI API Key**: Your API key (stored locally, never shared)
 - **AI Model**: Choose between gpt-4o-mini (fast), gpt-4o (balanced), or gpt-4o-turbo (most capable)
 
-### Data Storage
+### Data Storage & Encryption
 
-All data is stored locally in Chrome storage:
-- Profiles and settings: `chrome.storage.local`
-- No encryption (for personal use only)
-- No cloud sync
+- **Location**: All data is stored locally in `chrome.storage.local`
+- **Profiles encryption**:
+  - Profile state (`profiles_v1`) is encrypted with AES‑GCM (256‑bit key)
+  - A random key is generated per installation and stored separately (`profiles_key_v1`, raw key in base64)
+  - Content scripts never read storage directly — profiles are loaded/decrypted in the background script
+- **Backups**:
+  - Import/Export works with plain JSON `ProfilesState` + `Settings` (human‑readable backup)
+  - Encryption is applied only to data at rest inside `chrome.storage.local`
+- **Sync**: No cloud sync, everything stays on this device
 
 ## Architecture
 
@@ -163,11 +168,11 @@ src/
 ## Privacy & Security
 
 - All data stored locally on your device (`chrome.storage.local`)
+- Profiles encrypted at rest (AES‑GCM, per‑installation key)
 - No telemetry, analytics, or cloud sync
 - API keys never leave your browser except for OpenAI API calls
 - Optional lock mechanism (disabled by default for convenience)
-- No encryption (personal use only)
-- Files stored as Base64 (kept locally)
+- Files stored as Base64 (kept locally, included in backups as plain Base64)
 
 ## Testing
 

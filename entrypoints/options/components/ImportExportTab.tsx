@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Stack, Card, Text, Button, Radio, FileInput, Group, Textarea, Divider } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { useTranslation } from 'react-i18next';
 import { loadProfilesState, saveProfilesState } from '@modules/profiles';
 import { loadSettings, saveSettings } from '@modules/unlock';
 import type { ProfilesState } from '@shared/types/profile';
@@ -13,6 +14,7 @@ type ExportData = {
 };
 
 export default function ImportExportTab() {
+  const { t } = useTranslation();
   const [importMode, setImportMode] = useState<'overwrite' | 'append'>('append');
   const [file, setFile] = useState<File | null>(null);
   const [jsonText, setJsonText] = useState<string>('');
@@ -40,9 +42,9 @@ export default function ImportExportTab() {
       a.click();
       URL.revokeObjectURL(url);
 
-      notifications.show({ message: 'Data exported successfully', color: 'green' });
+      notifications.show({ message: t('backup.exported'), color: 'green' });
     } catch {
-      notifications.show({ message: 'Export failed', color: 'red' });
+      notifications.show({ message: t('backup.exportFailed'), color: 'red' });
     }
   };
 
@@ -51,9 +53,9 @@ export default function ImportExportTab() {
       const exportData = await getExportData();
       const jsonString = JSON.stringify(exportData, null, 2);
       await navigator.clipboard.writeText(jsonString);
-      notifications.show({ message: 'Copied to clipboard', color: 'green' });
+      notifications.show({ message: t('backup.copiedToClipboard'), color: 'green' });
     } catch {
-      notifications.show({ message: 'Copy failed', color: 'red' });
+      notifications.show({ message: t('backup.copyFailed'), color: 'red' });
     }
   };
 
@@ -68,7 +70,7 @@ export default function ImportExportTab() {
       if (importMode === 'overwrite') {
         // Replace all profiles
         await saveProfilesState(importData.profiles);
-        notifications.show({ message: 'Profiles overwritten', color: 'green' });
+        notifications.show({ message: t('backup.profilesOverwritten'), color: 'green' });
       } else {
         // Append profiles
         const currentState = await loadProfilesState();
@@ -77,7 +79,7 @@ export default function ImportExportTab() {
           ...currentState,
           profiles: mergedProfiles,
         });
-        notifications.show({ message: `${importData.profiles.profiles.length} profile(s) imported`, color: 'green' });
+        notifications.show({ message: t('backup.profilesImported', { count: importData.profiles.profiles.length }), color: 'green' });
       }
 
       // Import all settings (replace completely to ensure all keys are updated)
@@ -87,7 +89,7 @@ export default function ImportExportTab() {
         settingsUpdate[key] = importData.settings[key];
       }
       await saveSettings(settingsUpdate);
-      notifications.show({ message: 'Settings imported', color: 'green' });
+      notifications.show({ message: t('backup.settingsImported'), color: 'green' });
 
       setFile(null);
       setJsonText('');
@@ -96,13 +98,13 @@ export default function ImportExportTab() {
       window.location.reload();
     } catch (error) {
       console.error('Import error:', error);
-      notifications.show({ message: 'Import failed: Invalid file format', color: 'red' });
+      notifications.show({ message: t('backup.importFailedInvalid'), color: 'red' });
     }
   };
 
   const handleImportFromFile = async () => {
     if (!file) {
-      notifications.show({ message: 'Please select a file', color: 'red' });
+      notifications.show({ message: t('backup.pleaseSelectFile'), color: 'red' });
       return;
     }
 
@@ -112,7 +114,7 @@ export default function ImportExportTab() {
 
   const handleImportFromText = async () => {
     if (!jsonText.trim()) {
-      notifications.show({ message: 'Please paste JSON data', color: 'red' });
+      notifications.show({ message: t('backup.pleasePasteJson'), color: 'red' });
       return;
     }
 
@@ -123,9 +125,9 @@ export default function ImportExportTab() {
     try {
       const text = await navigator.clipboard.readText();
       setJsonText(text);
-      notifications.show({ message: 'Pasted from clipboard', color: 'blue' });
+      notifications.show({ message: t('backup.pastedFromClipboard'), color: 'blue' });
     } catch {
-      notifications.show({ message: 'Failed to read clipboard', color: 'red' });
+      notifications.show({ message: t('backup.failedToReadClipboard'), color: 'red' });
     }
   };
 
@@ -134,14 +136,14 @@ export default function ImportExportTab() {
       <Card withBorder padding="md">
         <Stack gap="sm">
           <Text fw={600} size="lg">
-            Export Data
+            {t('backup.exportData')}
           </Text>
           <Text size="sm" c="dimmed">
-            Download all your profiles, settings (including API key), and custom fields
+            {t('backup.exportDescription')}
           </Text>
           <Group>
-            <Button onClick={handleExport}>Export All Data</Button>
-            <Button onClick={handleCopy} variant="light">Copy to Clipboard</Button>
+            <Button onClick={handleExport}>{t('backup.exportAllData')}</Button>
+            <Button onClick={handleCopy} variant="light">{t('backup.exportToClipboard')}</Button>
           </Group>
         </Stack>
       </Card>
@@ -149,38 +151,38 @@ export default function ImportExportTab() {
       <Card withBorder padding="md">
         <Stack gap="sm">
           <Text fw={600} size="lg">
-            Import Data
+            {t('backup.importData')}
           </Text>
           <Text size="sm" c="dimmed">
-            Import profiles and settings from a backup file or paste JSON
+            {t('backup.importDescription')}
           </Text>
 
-          <Radio.Group value={importMode} onChange={(value) => setImportMode(value as any)} label="Import mode">
+          <Radio.Group value={importMode} onChange={(value) => setImportMode(value as any)} label={t('backup.importMode')}>
             <Stack gap="xs" mt="xs">
-              <Radio value="append" label="Append - Add imported profiles to existing ones" />
-              <Radio value="overwrite" label="Overwrite - Replace all existing profiles" />
+              <Radio value="append" label={t('backup.append')} />
+              <Radio value="overwrite" label={t('backup.overwrite')} />
             </Stack>
           </Radio.Group>
 
-          <Divider label="From File" labelPosition="center" my="md" />
+          <Divider label={t('backup.fromFile')} labelPosition="center" my="md" />
 
           <FileInput
-            label="Select backup file"
-            placeholder="Choose JSON file"
+            label={t('backup.selectBackupFile')}
+            placeholder={t('backup.chooseJsonFile')}
             accept="application/json"
             value={file}
             onChange={setFile}
           />
 
           <Button onClick={handleImportFromFile} disabled={!file}>
-            Import from File
+            {t('backup.importFromFileButton')}
           </Button>
 
-          <Divider label="Or Paste JSON" labelPosition="center" my="md" />
+          <Divider label={t('backup.orPasteJson')} labelPosition="center" my="md" />
 
           <Textarea
-            label="Paste JSON data"
-            placeholder='{"version": "1.0", "profiles": {...}, "settings": {...}}'
+            label={t('backup.pasteJsonData')}
+            placeholder={t('backup.pasteJsonPlaceholder')}
             value={jsonText}
             onChange={(e) => setJsonText(e.target.value)}
             minRows={6}
@@ -190,10 +192,10 @@ export default function ImportExportTab() {
 
           <Group>
             <Button onClick={handlePasteFromClipboard} variant="light">
-              Paste from Clipboard
+              {t('backup.pasteFromClipboard')}
             </Button>
             <Button onClick={handleImportFromText} disabled={!jsonText.trim()}>
-              Import from JSON
+              {t('backup.importFromJson')}
             </Button>
           </Group>
         </Stack>

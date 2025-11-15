@@ -12,6 +12,8 @@ export async function loadSettings(): Promise<Settings> {
       lockEnabled: false,
       aiEnabled: false,
       aiModel: 'gpt-4o-mini',
+      theme: 'light',
+      language: 'en',
     };
     await setStorage(STORAGE_KEY, initial);
     return initial;
@@ -24,6 +26,8 @@ export async function loadSettings(): Promise<Settings> {
     lockEnabled: false,
     aiEnabled: false,
     aiModel: 'gpt-4o-mini',
+    theme: 'light',
+    language: 'en',
   };
   await setStorage(STORAGE_KEY, fallback);
   return fallback;

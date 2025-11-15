@@ -22,10 +22,19 @@ export default defineConfig({
     },
   }),
   manifest: {
-    name: 'Autofill',
-    description: 'Fast autofill for forms with profiles, hotkeys, and optional AI.',
+    name: 'Autofill - Smart Form Filler',
+    description: 'Fast autofill for forms with profiles, hotkeys, and optional AI. Supports files, custom fields, import/export.',
+    version: '0.1.0',
+    author: 'Your Name',
+    homepage_url: 'https://github.com/yourusername/autofil_extension',
     permissions: ['storage', 'activeTab', 'scripting', 'tabs'],
     host_permissions: ['<all_urls>', 'http://localhost/*'],
+    web_accessible_resources: [
+      {
+        resources: ['add-field-modal.html'],
+        matches: ['<all_urls>'],
+      },
+    ],
     content_scripts: [
       {
         matches: ['<all_urls>'],

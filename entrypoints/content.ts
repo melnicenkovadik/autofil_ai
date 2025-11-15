@@ -1,5 +1,4 @@
 import type { MessageToContent } from '@shared/types/messages';
-import { getActiveProfileId, loadProfilesState } from '@modules/profiles';
 import { showToast } from './content-utils/toast';
 import { fillCurrentField, fillFormForElement, fillAllVisibleFields } from './content-utils/fill';
 import { findClosestForm } from './content-utils/selectors';
@@ -7,6 +6,7 @@ import { startRecordMode } from './content-utils/record';
 import { initHoverUI } from './content-utils/hover-ui';
 import { showAddFieldModal } from './content-utils/add-field-modal';
 import { logger } from '@shared/utils/logger';
+import { getTranslation, initContentI18n } from '@shared/utils/i18n-content';
 
 export default defineContentScript({
   matches: ['<all_urls>'],
@@ -14,33 +14,36 @@ export default defineContentScript({
   allFrames: true,
   main() {
     logger.info('Content script initialized');
-    // Initialize hover UI on page load
-    initHoverUI();
+    // Initialize i18n and hover UI
+    void (async () => {
+      await initContentI18n();
+      await initHoverUI();
+    })();
 
     chrome.runtime.onMessage.addListener((message: MessageToContent, _sender, _sendResponse) => {
       logger.debug('Received message', message.type);
   void (async () => {
     switch (message.type) {
           case 'FILL_ONE': {
-            const profileId = message.payload.profileId ?? (await getActiveProfileId());
-            const profile = (await loadProfilesState()).profiles.find((p) => p.id === profileId) ?? null;
+            const profile = message.payload.profile;
             if (!profile) {
-              showToast('No active profile', 'error');
+              showToast(await getTranslation('content.noActiveProfile'), 'error');
               break;
             }
             const active = (document.activeElement as HTMLElement | null) ?? null;
             if (!active || !(active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement || active instanceof HTMLSelectElement)) {
-              showToast('Focus an input first', 'info');
+              showToast(await getTranslation('content.focusInputFirst'), 'info');
               break;
             }
             const ok = await fillCurrentField(active, profile);
             if (ok) {
               const usedAI = (active as any)._autofillUsedAI;
               delete (active as any)._autofillUsedAI;
-              showToast(usedAI ? 'Filled field ✨ (AI)' : 'Filled field', 'success');
+              showToast(usedAI ? await getTranslation('content.filledFieldAI') : await getTranslation('content.filledField'), 'success');
             } else {
-              showToast('Nothing to fill', 'info', {
-                label: 'Add Field',
+              const addFieldLabel = await getTranslation('content.addField');
+              showToast(await getTranslation('content.nothingToFill'), 'info', {
+                label: addFieldLabel,
                 icon: '+',
                 onClick: () => {
                   if (active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement || active instanceof HTMLSelectElement) {
@@ -52,10 +55,9 @@ export default defineContentScript({
             break;
           }
           case 'FILL_FORM': {
-            const profileId = message.payload.profileId ?? (await getActiveProfileId());
-            const profile = (await loadProfilesState()).profiles.find((p) => p.id === profileId) ?? null;
+            const profile = message.payload.profile;
             if (!profile) {
-              showToast('No active profile', 'error');
+              showToast(await getTranslation('content.noActiveProfile'), 'error');
               break;
             }
             const active = document.activeElement as HTMLElement | null;
@@ -69,7 +71,10 @@ export default defineContentScript({
               count = await fillAllVisibleFields(profile);
             }
             
-            showToast(count ? `Filled ${count} field(s)` : 'Nothing to fill', count ? 'success' : 'info');
+            const toastMessage = count 
+              ? await getTranslation('content.filledFields', { count: count.toString() })
+              : await getTranslation('content.nothingToFill');
+            showToast(toastMessage, count ? 'success' : 'info');
             break;
           }
       case 'TOAST': {
@@ -78,7 +83,7 @@ export default defineContentScript({
       }
       case 'RECORD_CAPTURE': {
         startRecordMode();
-        showToast('Record mode: capturing inputs on change', 'info');
+        showToast(await getTranslation('content.recordMode'), 'info');
         break;
       }
       default:
