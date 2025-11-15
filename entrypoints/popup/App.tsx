@@ -13,7 +13,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ width: '800px', height: '600px', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ width: '800px', height: '600px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       <Tabs defaultValue="profiles" style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
         <Paper 
           p="md" 
@@ -27,21 +27,23 @@ export default function App() {
           shadow="sm"
         >
           <Group justify="space-between" wrap="nowrap">
-            <Tabs.List style={{ flex: 1 }}>
+            <Tabs.List style={{ flex: 1, overflow: 'hidden' }}>
               <Tabs.Tab value="profiles">{t('app.profiles')}</Tabs.Tab>
               <Tabs.Tab value="settings">{t('app.settings')}</Tabs.Tab>
               <Tabs.Tab value="import-export">{t('app.backup')}</Tabs.Tab>
-            </Tabs.List>
             
-            <Tooltip label={t('app.openInFullPage')} position="bottom">
+            <Tooltip label={t('app.openInFullPage')} position="bottom" style={{ padding: 0 }}>
               <ActionIcon 
                 variant="light" 
-                size="lg"
+                size="md"
+                className="external-link-icon"
+                style={{ position: 'absolute', top: -3, right: 0, padding: 0 }}
                 onClick={handleOpenFullPage}
               >
                 <IconExternalLink size={18} />
               </ActionIcon>
             </Tooltip>
+            </Tabs.List>
           </Group>
         </Paper>
 

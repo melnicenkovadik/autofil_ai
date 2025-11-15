@@ -279,6 +279,7 @@ export const theme = createTheme({
         },
         list: {
           borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
+          paddingBottom: '8px',
         },
         '[data-mantine-color-scheme="dark"] & list': {
           borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
