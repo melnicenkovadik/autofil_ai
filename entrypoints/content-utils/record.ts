@@ -2,6 +2,7 @@ import { extractMeta, isVisible } from './selectors';
 import { scoreElementToKey } from '@modules/mapping/scorer';
 import { logger } from '@shared/utils/logger';
 import { showToast } from './toast';
+import { getTranslation } from '@shared/utils/i18n-content';
 import type { CanonicalKey } from '@shared/types/profile';
 
 let isRecording = false;
@@ -12,7 +13,7 @@ const recordedFields = new Set<HTMLElement>();
  */
 export function startRecordMode(): void {
   if (isRecording) {
-    stopRecordMode();
+    void stopRecordMode();
     return;
   }
   
@@ -29,7 +30,7 @@ export function startRecordMode(): void {
 /**
  * Stop Record Mode
  */
-export function stopRecordMode(): void {
+export async function stopRecordMode(): Promise<void> {
   if (!isRecording) return;
   
   isRecording = false;
@@ -37,7 +38,8 @@ export function stopRecordMode(): void {
   document.removeEventListener('change', handleInputChange, true);
   
   logger.info('Record mode stopped, recorded', recordedFields.size, 'fields');
-  showToast(`Recorded ${recordedFields.size} field(s) for this site`, 'success');
+  const message = await getTranslation('content.recordedFields', { count: recordedFields.size.toString() });
+  showToast(message, 'success');
   
   recordedFields.clear();
 }
@@ -45,7 +47,8 @@ export function stopRecordMode(): void {
 export async function addRuleForElement(el: InputLike, key: CanonicalKey): Promise<boolean> {
   // Domain rules removed - this function is no longer used
   logger.info('addRuleForElement called but domain rules are disabled', el, key);
-  showToast('Domain rules are disabled', 'info');
+  const message = await getTranslation('content.domainRulesDisabled');
+  showToast(message, 'info');
   return false;
 }
 

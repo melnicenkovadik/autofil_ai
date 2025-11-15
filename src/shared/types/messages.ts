@@ -1,10 +1,10 @@
-import type { CanonicalKey } from './profile';
+import type { CanonicalKey, Profile } from './profile';
 
 export type BgCommand = 'fill-field' | 'fill-form';
 
 export type MessageToContent =
-  | { type: 'FILL_ONE'; payload: { profileId: string | null } }
-  | { type: 'FILL_FORM'; payload: { profileId: string | null } }
+  | { type: 'FILL_ONE'; payload: { profile: Profile | null } }
+  | { type: 'FILL_FORM'; payload: { profile: Profile | null } }
   | { type: 'TOAST'; payload: { message: string; variant?: 'success' | 'error' | 'info' } }
   | { type: 'RECORD_CAPTURE'; payload: { mode: 'form' | 'field' } };
 

@@ -1,5 +1,5 @@
 import { HOTKEYS } from '@modules/hotkeys';
-import { getActiveProfileId } from '@modules/profiles';
+import { getActiveProfile } from '@modules/profiles';
 import { isUnlocked, loadSettings } from '@modules/unlock';
 import type { MessageToBackground, MessageToContent, BgCommand } from '@shared/types/messages';
 import { logger } from '@shared/utils/logger';
@@ -34,11 +34,11 @@ chrome.commands.onCommand.addListener(async (command) => {
     await sendToContent(activeTab.id, { type: 'TOAST', payload: { message: 'Locked. Unlock to autofill.', variant: 'error' } });
     return;
   }
-  const profileId = await getActiveProfileId();
+  const profile = await getActiveProfile();
   if (cmd === HOTKEYS.fillField) {
-    await sendToContent(activeTab.id, { type: 'FILL_ONE', payload: { profileId } });
+    await sendToContent(activeTab.id, { type: 'FILL_ONE', payload: { profile } });
   } else {
-    await sendToContent(activeTab.id, { type: 'FILL_FORM', payload: { profileId } });
+    await sendToContent(activeTab.id, { type: 'FILL_FORM', payload: { profile } });
   }
 });
 
@@ -53,8 +53,8 @@ chrome.runtime.onMessage.addListener((message: MessageToBackground, _sender, sen
           await sendToContent(tab.id, { type: 'TOAST', payload: { message: 'Locked. Unlock to autofill.', variant: 'error' } });
           break;
         }
-        const profileId = await getActiveProfileId();
-        await sendToContent(tab.id, { type: 'FILL_ONE', payload: { profileId } });
+        const profile = await getActiveProfile();
+        await sendToContent(tab.id, { type: 'FILL_ONE', payload: { profile } });
         break;
       }
       case 'REQUEST_FILL_FORM': {
@@ -65,8 +65,8 @@ chrome.runtime.onMessage.addListener((message: MessageToBackground, _sender, sen
           await sendToContent(tab.id, { type: 'TOAST', payload: { message: 'Locked. Unlock to autofill.', variant: 'error' } });
           break;
         }
-        const profileId = await getActiveProfileId();
-        await sendToContent(tab.id, { type: 'FILL_FORM', payload: { profileId } });
+        const profile = await getActiveProfile();
+        await sendToContent(tab.id, { type: 'FILL_FORM', payload: { profile } });
         break;
       }
       case 'AI_CLASSIFY': {

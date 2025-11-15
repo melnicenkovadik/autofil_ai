@@ -1,8 +1,47 @@
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, setStorage } from '../storage';
 import { ProfilesStateSchema, type Profile, type ProfilesState } from '../../shared/types/profile';
+import {
+  aesDecryptJson,
+  aesEncryptJson,
+  exportAesKey,
+  fromBase64,
+  generateAesKey,
+  importAesKey,
+  toBase64,
+  type EncryptedPayload,
+} from '../../shared/utils/crypto';
 
 const STORAGE_KEY: 'profiles_v1' = 'profiles_v1';
+const PROFILES_KEY_STORAGE_KEY = 'profiles_key_v1';
+
+type EncryptedProfilesState = EncryptedPayload & {
+  kind: 'profiles';
+};
+
+type StoredProfilesState = ProfilesState | EncryptedProfilesState;
+
+function isEncryptedProfilesState(value: unknown): value is EncryptedProfilesState {
+  if (!value || typeof value !== 'object') return false;
+  const maybe = value as Partial<EncryptedProfilesState>;
+  return maybe.kind === 'profiles' && maybe.v === 1 && typeof maybe.iv === 'string' && typeof maybe.data === 'string';
+}
+
+async function getProfilesKey(): Promise<CryptoKey> {
+  const res = await chrome.storage.local.get(PROFILES_KEY_STORAGE_KEY);
+  const rawB64 = res[PROFILES_KEY_STORAGE_KEY] as string | undefined;
+
+  if (rawB64) {
+    const raw = fromBase64(rawB64);
+    return importAesKey(raw.buffer);
+  }
+
+  const key = await generateAesKey();
+  const raw = await exportAesKey(key);
+  const b64 = toBase64(raw);
+  await chrome.storage.local.set({ [PROFILES_KEY_STORAGE_KEY]: b64 });
+  return key;
+}
 
 const DEFAULT_PROFILE = (): Profile => ({
   id: uuidv4(),
@@ -11,22 +50,45 @@ const DEFAULT_PROFILE = (): Profile => ({
 });
 
 export async function loadProfilesState(): Promise<ProfilesState> {
-  const data = await getStorage<unknown>(STORAGE_KEY);
-  if (!data) {
+  const stored = await getStorage<StoredProfilesState | undefined>(STORAGE_KEY);
+
+  if (!stored) {
     const initial: ProfilesState = { activeProfileId: null, profiles: [DEFAULT_PROFILE()] };
-    await setStorage(STORAGE_KEY, initial);
+    await saveProfilesState(initial);
     return initial;
   }
-  const parsed = ProfilesStateSchema.safeParse(data);
-  if (parsed.success) return parsed.data;
+
+  let plain: unknown;
+
+  if (isEncryptedProfilesState(stored)) {
+    // Encrypted format
+    const key = await getProfilesKey();
+    plain = await aesDecryptJson<ProfilesState>(key, stored);
+  } else {
+    // Legacy plain format (pre-encryption)
+    plain = stored;
+  }
+
+  const parsed = ProfilesStateSchema.safeParse(plain);
+  if (parsed.success) {
+    // If data was stored in legacy plain format, re-save it in encrypted form
+    if (!isEncryptedProfilesState(stored)) {
+      await saveProfilesState(parsed.data);
+    }
+    return parsed.data;
+  }
+
   const fallback: ProfilesState = { activeProfileId: null, profiles: [DEFAULT_PROFILE()] };
-  await setStorage(STORAGE_KEY, fallback);
+  await saveProfilesState(fallback);
   return fallback;
 }
 
 export async function saveProfilesState(state: ProfilesState): Promise<void> {
   const parsed = ProfilesStateSchema.parse(state);
-  await setStorage(STORAGE_KEY, parsed);
+  const key = await getProfilesKey();
+  const encrypted = await aesEncryptJson(key, parsed);
+  const payload: EncryptedProfilesState = { ...encrypted, kind: 'profiles' };
+  await setStorage(STORAGE_KEY, payload);
 }
 
 export async function getActiveProfileId(): Promise<string | null> {
@@ -76,6 +138,29 @@ export async function deleteProfile(profileId: string): Promise<void> {
     activeProfileId = profiles[0]?.id ?? null;
   }
   await saveProfilesState({ activeProfileId, profiles });
+}
+
+export async function duplicateProfile(profileId: string): Promise<Profile> {
+  const state = await loadProfilesState();
+  const profile = state.profiles.find((p) => p.id === profileId);
+  
+  if (!profile) {
+    throw new Error('Profile not found');
+  }
+
+  const newProfile: Profile = {
+    ...profile,
+    id: uuidv4(),
+    name: `${profile.name} (copy)`,
+  };
+
+  const next: ProfilesState = {
+    ...state,
+    profiles: [...state.profiles, newProfile],
+  };
+  
+  await saveProfilesState(next);
+  return newProfile;
 }
 
 
