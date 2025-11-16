@@ -34,6 +34,10 @@ export const SettingsSchema = z.object({
   aiModel: AiModelEnum.default('gpt-4o-mini'),
   theme: ThemeEnum.default('dark'),
   language: LanguageEnum.default('en'),
+  // Billing / licensing
+  plan: z.enum(['free', 'pro']).default('free'),
+  billingEmail: z.string().optional(),
+  clientId: z.string().optional(),
 });
 
 export type Settings = z.infer<typeof SettingsSchema>;

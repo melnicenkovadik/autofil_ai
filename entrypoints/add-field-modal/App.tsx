@@ -79,8 +79,13 @@ export default function App() {
       // Request refill
       window.parent.postMessage({ type: 'ADD_FIELD_MODAL_SAVED' }, '*');
     } catch (error) {
-      logger.error('Failed to save custom field', error);
-      notifications.show({ message: t('addField.failedToSave'), color: 'red' });
+      if (error instanceof Error && error.message === 'MAX_FIELDS_REACHED') {
+        // Respect global free plan limit on fields per profile
+        notifications.show({ message: t('billing.maxFieldsReached'), color: 'red' });
+      } else {
+        logger.error('Failed to save custom field', error);
+        notifications.show({ message: t('addField.failedToSave'), color: 'red' });
+      }
     }
   };
 

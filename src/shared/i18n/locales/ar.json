@@ -61,7 +61,8 @@
     "typeLabel": "النوع",
     "searchProfiles": "البحث في الملفات الشخصية...",
     "noProfilesFound": "لم يتم العثور على ملفات شخصية",
-    "profileNameRequired": "اسم الملف الشخصي مطلوب"
+    "profileNameRequired": "اسم الملف الشخصي مطلوب",
+    "freePlanHint": "الخطة المجانية: حتى {{maxProfiles}} ملفات شخصية و {{maxFields}} حقول لكل ملف شخصي. افتح علامة التبويب الفواتير لترقية."
   },
   "settings": {
     "title": "الإعدادات",
@@ -128,6 +129,7 @@
   "app": {
     "profiles": "الملفات الشخصية",
     "settings": "الإعدادات",
+    "billing": "PRO for life – $2",
     "backup": "النسخ الاحتياطي",
     "importExport": "استيراد/تصدير",
     "autofillSettings": "إعدادات الملء التلقائي",

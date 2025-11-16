@@ -61,7 +61,8 @@
     "typeLabel": "प्रकार",
     "searchProfiles": "प्रोफाइल खोजें...",
     "noProfilesFound": "कोई प्रोफाइल नहीं मिला",
-    "profileNameRequired": "प्रोफाइल नाम आवश्यक है"
+    "profileNameRequired": "प्रोफाइल नाम आवश्यक है",
+    "freePlanHint": "फ़्री प्लान: अधिकतम {{maxProfiles}} प्रोफाइल और {{maxFields}} फ़ील्ड प्रोफाइल प्रति प्रोफाइल के लिए। बिलिंग टैब खोलें अपग्रेड करने के लिए।"
   },
   "settings": {
     "title": "सेटिंग्स",
@@ -128,6 +129,7 @@
   "app": {
     "profiles": "प्रोफाइल",
     "settings": "सेटिंग्स",
+    "billing": "PRO for life – $2",
     "backup": "बैकअप",
     "importExport": "आयात/निर्यात",
     "autofillSettings": "ऑटोफिल सेटिंग्स",

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Stack,
@@ -31,6 +32,8 @@ import {
 } from '@modules/profiles';
 import type { Profile, CanonicalKey } from '@shared/types/profile';
 import { getTranslatedCanonicalFields } from '@shared/constants/canonical-fields';
+import { getLimits, countProfileFields, type Plan } from '@shared/constants/limits';
+import { loadSettings } from '@modules/unlock';
 
 type FieldRow = {
   key: string;
@@ -53,32 +56,64 @@ export default function ProfilesTab() {
   const [editNameModalOpened, setEditNameModalOpened] = useState(false);
   const [profileSearchQuery, setProfileSearchQuery] = useState('');
   const [editingProfileName, setEditingProfileName] = useState('');
+  const [plan, setPlan] = useState<Plan>('free');
+  const [maxProfiles, setMaxProfiles] = useState<number>(2);
+  const [maxFieldsPerProfile, setMaxFieldsPerProfile] = useState<number>(30);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const editNameInputRef = useRef<HTMLInputElement>(null);
+  const selectedProfileRef = useRef<Profile | null>(null);
+
+  // Helper to update both state and ref (avoid recursion!)
+  const setSelectedProfileAndRef = (profile: Profile | null) => {
+    setSelectedProfile(profile);
+    selectedProfileRef.current = profile;
+  };
 
   useEffect(() => {
     loadData();
+    
+    // Cleanup timeout on unmount
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
   }, []);
 
   const loadData = async () => {
-    const state = await loadProfilesState();
+    const [state, settings] = await Promise.all([loadProfilesState(), loadSettings()]);
+
     setProfiles(state.profiles);
     const activeId = state.activeProfileId || state.profiles[0]?.id || null;
     setActiveProfileId(activeId);
+
+    const limits = getLimits(settings.plan);
+    setPlan(settings.plan);
+    setMaxProfiles(limits.maxProfiles);
+    setMaxFieldsPerProfile(limits.maxFieldsPerProfile);
     
     if (state.profiles.length > 0 && !selectedProfile) {
       const activeProfile = state.profiles.find(p => p.id === activeId) || state.profiles[0];
       if (activeProfile) {
-        setSelectedProfile(activeProfile);
+        setSelectedProfileAndRef(activeProfile);
       }
     }
   };
 
   const handleCreateProfile = async () => {
+    try {
     const profile = await createProfile({ name: `${t('profiles.title')} ${profiles.length + 1}` });
     notifications.show({ message: t('profiles.profileCreated'), color: 'green' });
     await loadData();
-    setSelectedProfile(profile);
+    setSelectedProfileAndRef(profile);
+    } catch (error: any) {
+      if (error instanceof Error && error.message === 'MAX_PROFILES_REACHED') {
+        notifications.show({ message: t('billing.maxProfilesReached'), color: 'red' });
+      } else {
+        console.error(error);
+        notifications.show({ message: t('backup.importError'), color: 'red' });
+      }
+    }
   };
 
   const handleSelectProfile = async (profile: Profile) => {
@@ -87,7 +122,7 @@ export default function ProfilesTab() {
       clearTimeout(saveTimeoutRef.current);
       saveTimeoutRef.current = null;
     }
-    setSelectedProfile(profile);
+    setSelectedProfileAndRef(profile);
     // Auto-activate when switching profiles
     if (profile.id !== activeProfileId) {
       await handleSetActive(profile.id);
@@ -142,17 +177,26 @@ export default function ProfilesTab() {
     setProfiles(state.profiles);
     const nextProfile = state.profiles[0] || null;
     if (nextProfile) {
-      setSelectedProfile(nextProfile);
+      setSelectedProfileAndRef(nextProfile);
       setActiveProfileId(state.activeProfileId || nextProfile.id);
     }
   };
 
   const handleDuplicateProfile = async () => {
     if (!selectedProfile) return;
+    try {
     const duplicated = await duplicateProfile(selectedProfile.id);
     notifications.show({ message: t('profiles.profileDuplicated'), color: 'green' });
     await loadData();
-    setSelectedProfile(duplicated);
+    setSelectedProfileAndRef(duplicated);
+    } catch (error: any) {
+      if (error instanceof Error && error.message === 'MAX_PROFILES_REACHED') {
+        notifications.show({ message: t('billing.maxProfilesReached'), color: 'red' });
+      } else {
+        console.error(error);
+        notifications.show({ message: t('backup.importError'), color: 'red' });
+      }
+    }
   };
 
   const handleSetActive = async (profileId: string) => {
@@ -162,15 +206,15 @@ export default function ProfilesTab() {
   };
 
   // Get all fields as rows (including empty ones)
-  const getFieldRows = (): FieldRow[] => {
-    if (!selectedProfile) return [];
+  const getFieldRows = (profile: Profile | null): FieldRow[] => {
+    if (!profile) return [];
     
     const rows: FieldRow[] = [];
     const translatedFields = getTranslatedCanonicalFields(t);
     
     // Canonical fields - show if field exists in profile (even if empty)
     translatedFields.forEach(field => {
-      const value = selectedProfile.fields[field.key];
+      const value = profile.fields[field.key];
       if (value !== undefined) {
         rows.push({
           key: field.key,
@@ -184,7 +228,7 @@ export default function ProfilesTab() {
     });
     
     // Custom fields
-    (selectedProfile.custom || []).forEach((custom, index) => {
+    (profile.custom || []).forEach((custom, index) => {
       if (custom.key) {
         rows.push({
           key: `custom_${index}`,
@@ -203,11 +247,13 @@ export default function ProfilesTab() {
   const handleFieldValueChange = (row: FieldRow, newValue: string) => {
     if (!selectedProfile) return;
     
+    let updatedProfile: Profile;
+    
     if (row.isCanonical && row.canonicalKey) {
-      setSelectedProfile({
+      updatedProfile = {
         ...selectedProfile,
         fields: { ...selectedProfile.fields, [row.canonicalKey]: newValue },
-      });
+      };
     } else if (row.customIndex !== undefined) {
       const custom = [...(selectedProfile.custom || [])];
       const existing = custom[row.customIndex];
@@ -219,8 +265,34 @@ export default function ProfilesTab() {
         fileName: existing.fileName,
         fileType: existing.fileType,
       };
-      setSelectedProfile({ ...selectedProfile, custom });
+      updatedProfile = { ...selectedProfile, custom };
+    } else {
+      return;
     }
+    
+    // Update local state and ref immediately
+    setSelectedProfileAndRef(updatedProfile);
+    
+    // Debounced auto-save (500ms delay)
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+    
+    // Capture profile ID and data to avoid closure issues
+    const profileId = updatedProfile.id;
+    const profileToSave = { ...updatedProfile };
+    
+    saveTimeoutRef.current = setTimeout(async () => {
+      try {
+        console.log('Auto-saving profile:', profileId, profileToSave);
+        await updateProfile(profileId, profileToSave);
+        console.log('Profile saved successfully');
+      } catch (error) {
+        console.error('Failed to save field value:', error);
+        notifications.show({ message: t('backup.importError'), color: 'red' });
+      }
+      saveTimeoutRef.current = null;
+    }, 500);
   };
 
   const handleFileUpload = async (row: FieldRow, file: File | null) => {
@@ -237,20 +309,27 @@ export default function ProfilesTab() {
 
     try {
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
         const base64 = reader.result as string;
         const custom = [...(selectedProfile.custom || [])];
         const existing = custom[row.customIndex!];
         if (!existing) return;
-        custom[row.customIndex!] = {
-          key: existing.key,
-          type: existing.type,
-          value: base64,
-          fileName: file.name,
-          fileType: file.type,
+        const updatedProfile = {
+          ...selectedProfile,
+          custom: custom.map((c, i) => 
+            i === row.customIndex! 
+              ? { key: existing.key, type: existing.type, value: base64, fileName: file.name, fileType: file.type }
+              : c
+          ),
         };
-        setSelectedProfile({ ...selectedProfile, custom });
-        notifications.show({ message: t('profiles.fileUploaded', { name: file.name }), color: 'green' });
+        setSelectedProfileAndRef(updatedProfile);
+        try {
+          await updateProfile(updatedProfile.id, updatedProfile);
+          notifications.show({ message: t('profiles.fileUploaded', { name: file.name }), color: 'green' });
+        } catch (error) {
+          console.error('Failed to save file:', error);
+          notifications.show({ message: t('backup.importError'), color: 'red' });
+        }
       };
       reader.onerror = () => {
         notifications.show({ message: t('backup.failedToReadClipboard'), color: 'red' });
@@ -288,6 +367,12 @@ export default function ProfilesTab() {
       console.error('No selected profile');
       return;
     }
+
+    const fieldCount = countProfileFields(selectedProfile);
+    if (fieldCount >= maxFieldsPerProfile) {
+      notifications.show({ message: t('billing.maxFieldsReached'), color: 'red' });
+      return;
+    }
     const profileId = selectedProfile.id;
     const updatedProfile = {
       ...selectedProfile,
@@ -303,7 +388,7 @@ export default function ProfilesTab() {
       setProfiles(state.profiles);
       const refreshedProfile = state.profiles.find(p => p.id === profileId);
       if (refreshedProfile) {
-        setSelectedProfile(refreshedProfile);
+        setSelectedProfileAndRef(refreshedProfile);
       }
     } catch (error) {
       console.error('Error adding field:', error);
@@ -313,6 +398,11 @@ export default function ProfilesTab() {
 
   const handleAddCustomField = async (key: string, type: string, file?: File) => {
     if (!selectedProfile || !key.trim()) return;
+    const fieldCount = countProfileFields(selectedProfile);
+    if (fieldCount >= maxFieldsPerProfile) {
+      notifications.show({ message: t('billing.maxFieldsReached'), color: 'red' });
+      return;
+    }
     const profileId = selectedProfile.id;
     const custom = selectedProfile.custom || [];
     
@@ -370,7 +460,7 @@ export default function ProfilesTab() {
       setProfiles(state.profiles);
       const refreshedProfile = state.profiles.find(p => p.id === profileId);
       if (refreshedProfile) {
-        setSelectedProfile(refreshedProfile);
+        setSelectedProfileAndRef(refreshedProfile);
       }
     } catch (error) {
       console.error('Error adding field:', error);
@@ -378,7 +468,16 @@ export default function ProfilesTab() {
     }
   };
 
-  const fieldRows = getFieldRows();
+  // Derive selected profile: use explicit selection, then active, then first
+  const effectiveSelectedProfile: Profile | null =
+    selectedProfile ||
+    profiles.find((p) => p.id === activeProfileId) ||
+    profiles[0] ||
+    null;
+
+  const fieldRows = getFieldRows(effectiveSelectedProfile);
+  const currentFieldCount = effectiveSelectedProfile ? countProfileFields(effectiveSelectedProfile) : 0;
+  const canCreateMoreProfiles = profiles.length < maxProfiles;
 
   // Filter profiles by search query
   const filteredProfiles = profiles
@@ -398,83 +497,105 @@ export default function ProfilesTab() {
     <Stack gap="xs" style={{ height: 'calc(100vh - 100px)' }}>
       {/* Compact Header */}
       <Card withBorder padding="xs">
-        <Group justify="space-between" gap="xs" wrap="nowrap">
-          {/* Left: Profile selector + name */}
-          <Group gap="xs" wrap="nowrap" style={{ flex: 1, minWidth: 0 }}>
-            <Button
-              variant="light"
-              leftSection={selectedProfile && activeProfileId === selectedProfile.id ? <IconStar size={16} fill="currentColor" /> : <IconChevronDown size={16} />}
-              rightSection={<IconChevronDown size={14} />}
-              onClick={() => setProfileSelectorOpened(true)}
-              style={{ minWidth: 220, maxWidth: 280, justifyContent: 'space-between' }}
-              size="sm"
-            >
-              <span style={{ flex: 1, textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {selectedProfile 
-                  ? `${selectedProfile.name}`
-                  : t('profiles.select')}
-              </span>
-            </Button>
-            
+        <Stack gap="xs">
+          <Group justify="space-between" gap="xs" wrap="nowrap">
+            {/* Left: Profile selector + name */}
+            <Group gap="xs" wrap="nowrap" style={{ flex: 1, minWidth: 0 }}>
+              <Button
+                variant="light"
+                leftSection={selectedProfile && activeProfileId === selectedProfile.id ? <IconStar size={16} fill="currentColor" /> : <IconChevronDown size={16} />}
+                rightSection={<IconChevronDown size={14} />}
+                onClick={() => setProfileSelectorOpened(true)}
+                style={{ minWidth: 220, maxWidth: 280, justifyContent: 'space-between' }}
+                size="sm"
+              >
+                <span style={{ flex: 1, textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {selectedProfile 
+                    ? `${selectedProfile.name}`
+                    : t('profiles.select')}
+                </span>
+              </Button>
+              
+              {selectedProfile && (
+                <Tooltip label={t('profiles.rename')}>
+                  <ActionIcon
+                    variant="light"
+                    size="lg"
+                    onClick={handleOpenEditNameModal}
+                    color="gray"
+                  >
+                    <IconPencil size={18} />
+                  </ActionIcon>
+                </Tooltip>
+              )}
+            </Group>
+
+            {/* Right: Actions */}
             {selectedProfile && (
-              <Tooltip label={t('profiles.rename')}>
-                <ActionIcon
-                  variant="light"
-                  size="lg"
-                  onClick={handleOpenEditNameModal}
-                  color="gray"
+              <Group gap="xs" wrap="nowrap">
+                <Tooltip label={t('profiles.duplicate')}>
+                  <ActionIcon 
+                    onClick={handleDuplicateProfile} 
+                    size="lg" 
+                    variant="light"
+                    color="blue"
+                  >
+                    <IconCopy size={18} />
+                  </ActionIcon>
+                </Tooltip>
+                
+                <Tooltip label={t('profiles.delete')}>
+                  <ActionIcon 
+                    onClick={() => setDeleteModalOpened(true)} 
+                    size="lg" 
+                    variant="light" 
+                    color="red"
+                    disabled={profiles.length === 1}
+                  >
+                    <IconTrash size={18} />
+                  </ActionIcon>
+                </Tooltip>
+                
+                <Tooltip
+                  label={!canCreateMoreProfiles ? t('billing.maxProfilesReached') : undefined}
+                  disabled={canCreateMoreProfiles}
                 >
-                  <IconPencil size={18} />
-                </ActionIcon>
-              </Tooltip>
+                  <Button 
+                    onClick={handleCreateProfile} 
+                    size="sm" 
+                    variant="light"
+                    leftSection={<IconPlus size={16} />}
+                    disabled={!canCreateMoreProfiles}
+                  >
+                    {t('common.add')}
+                  </Button>
+                </Tooltip>
+              </Group>
             )}
           </Group>
 
-          {/* Right: Actions */}
-          {selectedProfile && (
-            <Group gap="xs" wrap="nowrap">
-              <Tooltip label={t('profiles.duplicate')}>
-                <ActionIcon 
-                  onClick={handleDuplicateProfile} 
-                  size="lg" 
-                  variant="light"
-                  color="blue"
-                >
-                  <IconCopy size={18} />
-                </ActionIcon>
-              </Tooltip>
-              
-              <Tooltip label={t('profiles.delete')}>
-                <ActionIcon 
-                  onClick={() => setDeleteModalOpened(true)} 
-                  size="lg" 
-                  variant="light" 
-                  color="red"
-                  disabled={profiles.length === 1}
-                >
-                  <IconTrash size={18} />
-                </ActionIcon>
-              </Tooltip>
-              
-              <Button 
-                onClick={handleCreateProfile} 
-                size="sm" 
-                variant="light"
-                leftSection={<IconPlus size={16} />}
-              >
-                {t('common.add')}
-              </Button>
-            </Group>
+          {plan === 'free' && (
+            <Text size="xs" c="dimmed">
+              {t('profiles.freePlanHint', {
+                maxProfiles,
+                maxFields: maxFieldsPerProfile,
+              })}
+            </Text>
           )}
-        </Group>
+        </Stack>
       </Card>
 
       {/* Fields Table */}
-      {selectedProfile ? (
+      {effectiveSelectedProfile ? (
 
         <Card withBorder padding="xs" style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
           <Group justify="space-between" mb="xs">
-            <Text fw={600} size="sm">{t('profiles.fields')} ({fieldRows.length})</Text>
+            <Text fw={600} size="sm">
+              {t('profiles.fields')}{' '}
+              {maxFieldsPerProfile
+                ? `(${currentFieldCount} / ${maxFieldsPerProfile})`
+                : `(${currentFieldCount})`}
+            </Text>
             <Button 
               leftSection={<IconPlus size={16} />} 
               size="xs" 
@@ -510,6 +631,22 @@ export default function ProfilesTab() {
                               const newValue = e.target.value.replace('...', '');
                               handleFieldValueChange(row, newValue);
                             }}
+                            onBlur={async () => {
+                              // Force immediate save on blur using ref for latest state
+                              if (saveTimeoutRef.current) {
+                                clearTimeout(saveTimeoutRef.current);
+                                saveTimeoutRef.current = null;
+                              }
+                              const currentProfile = selectedProfileRef.current;
+                              if (currentProfile) {
+                                try {
+                                  await updateProfile(currentProfile.id, currentProfile);
+                                  console.log('Profile saved on blur');
+                                } catch (error) {
+                                  console.error('Failed to save on blur:', error);
+                                }
+                              }
+                            }}
                             size="xs"
                             rows={2}
                             autosize
@@ -519,7 +656,11 @@ export default function ProfilesTab() {
                           />
                         ) : row.type === 'file' ? (
                           <FileInput
-                            placeholder={row.customIndex !== undefined && selectedProfile.custom?.[row.customIndex]?.fileName || t('profiles.uploadFile')}
+                            placeholder={
+                              row.customIndex !== undefined &&
+                              effectiveSelectedProfile?.custom?.[row.customIndex]?.fileName ||
+                              t('profiles.uploadFile')
+                            }
                             onChange={(file) => handleFileUpload(row, file)}
                             size="xs"
                             accept="*/*"
@@ -531,6 +672,22 @@ export default function ProfilesTab() {
                             onChange={(e) => {
                               const newValue = e.target.value.replace('...', '');
                               handleFieldValueChange(row, newValue);
+                            }}
+                            onBlur={async () => {
+                              // Force immediate save on blur using ref for latest state
+                              if (saveTimeoutRef.current) {
+                                clearTimeout(saveTimeoutRef.current);
+                                saveTimeoutRef.current = null;
+                              }
+                              const currentProfile = selectedProfileRef.current;
+                              if (currentProfile) {
+                                try {
+                                  await updateProfile(currentProfile.id, currentProfile);
+                                  console.log('Profile saved on blur');
+                                } catch (error) {
+                                  console.error('Failed to save on blur:', error);
+                                }
+                              }
                             }}
                             size="xs"
                             title={row.value.length > 100 ? row.value : undefined}
@@ -694,18 +851,25 @@ export default function ProfilesTab() {
 
           {/* Fixed button at bottom */}
           <div style={{ flexShrink: 0, padding: '16px', paddingTop: '12px', borderTop: '1px solid var(--mantine-color-gray-3)' }}>
-            <Button
-              fullWidth
-              variant="light"
-              leftSection={<IconPlus size={16} />}
-              onClick={() => {
-                setProfileSelectorOpened(false);
-                setProfileSearchQuery('');
-                handleCreateProfile();
-              }}
+            <Tooltip
+              label={!canCreateMoreProfiles ? t('billing.maxProfilesReached') : undefined}
+              disabled={canCreateMoreProfiles}
             >
-              {t('profiles.create')}
-            </Button>
+              <Button
+                fullWidth
+                variant="light"
+                leftSection={<IconPlus size={16} />}
+                onClick={() => {
+                  if (!canCreateMoreProfiles) return;
+                  setProfileSelectorOpened(false);
+                  setProfileSearchQuery('');
+                  handleCreateProfile();
+                }}
+                disabled={!canCreateMoreProfiles}
+              >
+                {t('profiles.create')}
+              </Button>
+            </Tooltip>
           </div>
         </Stack>
       </Modal>

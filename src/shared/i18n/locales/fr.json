@@ -61,7 +61,8 @@
     "typeLabel": "Type",
     "searchProfiles": "Rechercher des profils...",
     "noProfilesFound": "Aucun profil trouvé",
-    "profileNameRequired": "Le nom du profil est requis"
+    "profileNameRequired": "Le nom du profil est requis",
+    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
   },
   "settings": {
     "title": "Paramètres",
@@ -128,6 +129,7 @@
   "app": {
     "profiles": "Profils",
     "settings": "Paramètres",
+    "billing": "PRO for life – $2",
     "backup": "Sauvegarde",
     "importExport": "Import/Export",
     "autofillSettings": "Paramètres de remplissage automatique",
