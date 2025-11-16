@@ -61,7 +61,8 @@
     "typeLabel": "Tipe",
     "searchProfiles": "Cari profil...",
     "noProfilesFound": "Tidak ada profil yang ditemukan",
-    "profileNameRequired": "Nama profil wajib diisi"
+    "profileNameRequired": "Nama profil wajib diisi",
+    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
   },
   "settings": {
     "title": "Pengaturan",
@@ -128,6 +129,7 @@
   "app": {
     "profiles": "Profil",
     "settings": "Pengaturan",
+    "billing": "PRO for life – $2",
     "backup": "Cadangan",
     "importExport": "Impor/Ekspor",
     "autofillSettings": "Pengaturan autofill",

@@ -61,7 +61,8 @@
     "typeLabel": "Typ",
     "searchProfiles": "Szukaj profili...",
     "noProfilesFound": "Nie znaleziono profili",
-    "profileNameRequired": "Nazwa profilu jest wymagana"
+    "profileNameRequired": "Nazwa profilu jest wymagana",
+    "freePlanHint": "Darmowy plan: do {{maxProfiles}} profili i {{maxFields}} pól na profil. Otwórz kartę Rozliczenia, aby uaktualnić."
   },
   "settings": {
     "title": "Ustawienia",
@@ -128,6 +129,7 @@
   "app": {
     "profiles": "Profile",
     "settings": "Ustawienia",
+    "billing": "PRO na zawsze – $2",
     "backup": "Kopia zapasowa",
     "importExport": "Import/Eksport",
     "autofillSettings": "Ustawienia automatycznego wypełniania",

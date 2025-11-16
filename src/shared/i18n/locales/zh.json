@@ -61,7 +61,8 @@
     "typeLabel": "类型",
     "searchProfiles": "搜索配置文件...",
     "noProfilesFound": "未找到配置文件",
-    "profileNameRequired": "配置文件名称是必需的"
+    "profileNameRequired": "配置文件名称是必需的",
+    "freePlanHint": "免费计划：最多 {{maxProfiles}} 个配置文件和每个配置文件最多 {{maxFields}} 个字段。打开 Billing 标签页以升级。"
   },
   "settings": {
     "title": "设置",
@@ -128,6 +129,7 @@
   "app": {
     "profiles": "配置文件",
     "settings": "设置",
+    "billing": "PRO for life – $2",
     "backup": "备份",
     "importExport": "导入/导出",
     "autofillSettings": "自动填充设置",

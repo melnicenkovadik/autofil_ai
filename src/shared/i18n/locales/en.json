@@ -61,7 +61,8 @@
     "typeLabel": "Type",
     "searchProfiles": "Search profiles...",
     "noProfilesFound": "No profiles found",
-    "profileNameRequired": "Profile name is required"
+    "profileNameRequired": "Profile name is required",
+    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
   },
   "settings": {
     "title": "Settings",
@@ -85,7 +86,15 @@
     "language": "Language",
     "languageDescription": "Choose interface language",
     "encryptionTitle": "Local encryption",
-    "encryptionDescription": "Profiles are encrypted locally on this device. Data never leaves your browser unless you export it."
+    "encryptionDescription": "Profiles are encrypted locally on this device. Data never leaves your browser unless you export it.",
+    "dangerZone": "Danger Zone",
+    "resetToDefault": "Reset to Default",
+    "resetDescription": "This will delete all profiles and reset all settings to default values. This action cannot be undone.",
+    "resetConfirmTitle": "Reset to Default?",
+    "resetConfirmMessage": "Are you sure you want to reset all profiles and settings to default? All your data will be permanently deleted. This action cannot be undone.",
+    "resetConfirm": "Reset Everything",
+    "resetSuccess": "All data has been reset to default",
+    "resetError": "Failed to reset data"
   },
   "backup": {
     "title": "Backup",
@@ -130,10 +139,37 @@
   "app": {
     "profiles": "Profiles",
     "settings": "Settings",
+    "billing": "PRO for life – $2",
     "backup": "Backup",
     "importExport": "Import/Export",
     "autofillSettings": "Autofill Settings",
     "openInFullPage": "Open in full page"
+  },
+  "billing": {
+    "title": "Billing & License",
+    "description": "Pay once and use Autofill Pro on up to 2 devices. You can always donate more to support development.",
+    "statusFree": "Free plan",
+    "statusPro": "Pro plan",
+    "emailLabel": "Email used for payment",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "This device ID",
+    "slotsInfo": "Devices used: {{used}} / {{total}}",
+    "payWithCard": "Pay with card (Stripe)",
+    "activateThisDevice": "Activate this device",
+    "refreshStatus": "Refresh status",
+    "emailRequired": "Enter email you used/will use for payment",
+    "clientIdMissing": "Client ID is missing. Try restarting the extension.",
+    "checkoutOpened": "Checkout opened in a new tab",
+    "checkoutError": "Failed to open checkout. Try again later.",
+    "statusError": "Failed to load license status",
+    "notFound": "Payment not found for this email yet. If you just paid, wait a bit and try again.",
+    "slotsExceeded": "License already used on all allowed devices.",
+    "maxProfilesReached": "Free plan limit reached: you can only create up to 2 profiles. Open the Billing tab to upgrade.",
+    "maxFieldsReached": "Free plan limit reached: you can only add up to 30 fields per profile. Open the Billing tab to upgrade.",
+    "notPro": "License for this email is not Pro.",
+    "activateError": "Failed to activate this device",
+    "activated": "This device is now activated as Pro",
+    "hint": "Flow: enter email → pay in Stripe → return here and press \"Activate this device\" on each browser where you use the extension."
   },
   "theme": {
     "light": "Light",

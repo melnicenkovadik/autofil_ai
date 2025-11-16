@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { getStorage, setStorage } from '../storage';
 import { SettingsSchema, type Settings } from '../../shared/types/settings';
 
@@ -6,31 +7,39 @@ const STORAGE_KEY: 'settings_v1' = 'settings_v1';
 export async function loadSettings(): Promise<Settings> {
   const raw = await getStorage<unknown>(STORAGE_KEY);
   if (!raw) {
-    const initial: Settings = {
-      unlockMinutes: 15,
-      unlockedUntil: null,
-      lockEnabled: false,
-      aiEnabled: false,
-      aiModel: 'gpt-4o-mini',
-      theme: 'light',
-      language: 'en',
+    // Используем схему, чтобы получить корректные дефолты
+    const initial: Settings = SettingsSchema.parse({});
+    // Сгенерируем clientId при первой инициализации
+    const withClientId: Settings = {
+      ...initial,
+      clientId: initial.clientId || uuidv4(),
     };
-    await setStorage(STORAGE_KEY, initial);
-    return initial;
+    await setStorage(STORAGE_KEY, withClientId);
+    return withClientId;
   }
   const parsed = SettingsSchema.safeParse(raw);
-  if (parsed.success) return parsed.data;
-  const fallback: Settings = {
-    unlockMinutes: 15,
-    unlockedUntil: null,
-    lockEnabled: false,
-    aiEnabled: false,
-    aiModel: 'gpt-4o-mini',
-    theme: 'light',
-    language: 'en',
+  if (parsed.success) {
+    const current = parsed.data;
+    // Миграция старых настроек: если нет clientId/plan — дозаполняем
+    const migrated: Settings = {
+      ...current,
+      clientId: current.clientId || uuidv4(),
+      plan: current.plan ?? 'free',
+    };
+    if (migrated !== current) {
+      await setStorage(STORAGE_KEY, migrated);
+    }
+    return migrated;
+  }
+
+  // Фоллбек на дефолты схемы
+  const fallback: Settings = SettingsSchema.parse({});
+  const withClientId: Settings = {
+    ...fallback,
+    clientId: fallback.clientId || uuidv4(),
   };
-  await setStorage(STORAGE_KEY, fallback);
-  return fallback;
+  await setStorage(STORAGE_KEY, withClientId);
+  return withClientId;
 }
 
 export async function saveSettings(patch: Partial<Settings>): Promise<Settings> {
@@ -67,6 +76,21 @@ export async function getRemainingTime(now = Date.now()): Promise<number> {
     return 0;
   }
   return Math.floor((settings.unlockedUntil - now) / 1000);
+}
+
+/**
+ * Reset settings to default values
+ */
+export async function resetSettingsToDefault(): Promise<Settings> {
+  // Use schema to get proper defaults
+  const initial: Settings = SettingsSchema.parse({});
+  // Generate new clientId
+  const withClientId: Settings = {
+    ...initial,
+    clientId: uuidv4(),
+  };
+  await setStorage(STORAGE_KEY, withClientId);
+  return withClientId;
 }
 
 

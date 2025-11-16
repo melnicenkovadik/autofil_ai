@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, NumberInput, Switch, PasswordInput, Select, Button, Card, Text } from '@mantine/core';
+import { Stack, NumberInput, Switch, PasswordInput, Select, Button, Card, Text, Modal, Group } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
-import { loadSettings, saveSettings } from '@modules/unlock';
+import { loadSettings, saveSettings, resetSettingsToDefault } from '@modules/unlock';
+import { resetProfilesToDefault } from '@modules/profiles';
 import { applyTheme } from '@shared/utils/theme';
 import type { Settings, AiModel, Theme, Language } from '@shared/types/settings';
 
 export default function SettingsTab() {
   const { t, i18n } = useTranslation();
   const [settings, setSettings] = useState<Settings | null>(null);
+  const [resetModalOpened, setResetModalOpened] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -61,6 +63,26 @@ export default function SettingsTab() {
       applyTheme(settings.theme);
     }
   }, [settings?.theme]);
+
+  const handleResetToDefault = async () => {
+    try {
+      // Reset profiles
+      await resetProfilesToDefault();
+      // Reset settings
+      const defaultSettings = await resetSettingsToDefault();
+      setSettings(defaultSettings);
+      // Apply default theme
+      applyTheme(defaultSettings.theme);
+      i18n.changeLanguage(defaultSettings.language);
+      // Reload page to reflect changes
+      window.location.reload();
+      notifications.show({ message: t('settings.resetSuccess'), color: 'green' });
+    } catch (error) {
+      console.error('Failed to reset to default:', error);
+      notifications.show({ message: t('settings.resetError'), color: 'red' });
+    }
+    setResetModalOpened(false);
+  };
 
   if (!settings) return <Text>{t('common.loading')}</Text>;
 
@@ -188,6 +210,46 @@ export default function SettingsTab() {
       <Button onClick={handleSave} size="md">
         {t('settings.save')}
       </Button>
+
+      <Card withBorder padding="md" style={{ borderColor: 'var(--mantine-color-red-6)' }}>
+        <Stack gap="sm">
+          <Text fw={600} size="lg" c="red">
+            {t('settings.dangerZone')}
+          </Text>
+          <Text size="sm" c="dimmed">
+            {t('settings.resetDescription')}
+          </Text>
+          <Button 
+            color="red" 
+            variant="outline" 
+            onClick={() => setResetModalOpened(true)}
+            size="md"
+          >
+            {t('settings.resetToDefault')}
+          </Button>
+        </Stack>
+      </Card>
+
+      <Modal
+        opened={resetModalOpened}
+        onClose={() => setResetModalOpened(false)}
+        title={t('settings.resetConfirmTitle')}
+        centered
+      >
+        <Stack gap="md">
+          <Text size="sm">
+            {t('settings.resetConfirmMessage')}
+          </Text>
+          <Group justify="flex-end" gap="xs">
+            <Button variant="light" onClick={() => setResetModalOpened(false)} size="sm">
+              {t('common.cancel')}
+            </Button>
+            <Button color="red" onClick={handleResetToDefault} size="sm">
+              {t('settings.resetConfirm')}
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
     </Stack>
   );
 }

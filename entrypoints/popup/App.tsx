@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ProfilesTab from '../options/components/ProfilesTab';
 import SettingsTab from '../options/components/SettingsTab';
 import ImportExportTab from '../options/components/ImportExportTab';
+import BillingTab from '../options/components/BillingTab';
 
 export default function App() {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ width: '800px', height: '600px', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ width: '800px', height: '600px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       <Tabs defaultValue="profiles" style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
         <Paper 
           p="md" 
@@ -27,21 +28,34 @@ export default function App() {
           shadow="sm"
         >
           <Group justify="space-between" wrap="nowrap">
-            <Tabs.List style={{ flex: 1 }}>
+            <Tabs.List style={{ flex: 1, overflow: 'hidden' }}>
               <Tabs.Tab value="profiles">{t('app.profiles')}</Tabs.Tab>
               <Tabs.Tab value="settings">{t('app.settings')}</Tabs.Tab>
               <Tabs.Tab value="import-export">{t('app.backup')}</Tabs.Tab>
-            </Tabs.List>
-            
-            <Tooltip label={t('app.openInFullPage')} position="bottom">
+              <Tabs.Tab value="billing">
+                {
+                  // make this text style with Purple cool gradient text
+                  <span style={{ 
+                    background: 'linear-gradient(to right, #6667ab, #9370ff)',
+                    backgroundClip: 'text',
+                    color: 'transparent',
+                  }}>
+                    {t('app.billing')}
+                  </span>
+                }
+                </Tabs.Tab>
+            <Tooltip label={t('app.openInFullPage')} position="bottom" style={{ padding: 0 }}>
               <ActionIcon 
                 variant="light" 
-                size="lg"
+                size="md"
+                className="external-link-icon"
+                style={{ position: 'absolute', top: -3, right: 0, padding: 0 }}
                 onClick={handleOpenFullPage}
               >
                 <IconExternalLink size={18} />
               </ActionIcon>
             </Tooltip>
+            </Tabs.List>
           </Group>
         </Paper>
 
@@ -58,6 +72,10 @@ export default function App() {
 
           <Tabs.Panel value="import-export">
             <ImportExportTab />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="billing">
+            <BillingTab />
           </Tabs.Panel>
         </div>
       </Tabs>

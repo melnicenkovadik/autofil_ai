@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ProfilesTab from './components/ProfilesTab';
 import SettingsTab from './components/SettingsTab';
 import ImportExportTab from './components/ImportExportTab';
+import BillingTab from './components/BillingTab';
 
 export default function App() {
   const { t } = useTranslation();
@@ -18,6 +19,7 @@ export default function App() {
           <Tabs.Tab value="profiles">{t('app.profiles')}</Tabs.Tab>
           <Tabs.Tab value="settings">{t('app.settings')}</Tabs.Tab>
           <Tabs.Tab value="import-export">{t('app.importExport')}</Tabs.Tab>
+          <Tabs.Tab value="billing">{t('app.billing')}</Tabs.Tab>
         </Tabs.List>
 
         <Space h="md" />
@@ -32,6 +34,10 @@ export default function App() {
 
         <Tabs.Panel value="import-export">
           <ImportExportTab />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="billing">
+          <BillingTab />
         </Tabs.Panel>
       </Tabs>
     </Container>

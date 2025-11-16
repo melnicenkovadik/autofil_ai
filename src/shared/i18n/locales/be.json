@@ -61,7 +61,8 @@
     "typeLabel": "Тып",
     "searchProfiles": "Пошук профіляў...",
     "noProfilesFound": "Профілі не знойдзены",
-    "profileNameRequired": "Назва профілю абавязковая"
+    "profileNameRequired": "Назва профілю абавязковая",
+    "freePlanHint": "Свабодны план: да {{maxProfiles}} профіляў і {{maxFields}} палёў на профіль. Адкрыйце lapel "
   },
   "settings": {
     "title": "Налады",
@@ -128,6 +129,7 @@
   "app": {
     "profiles": "Профілі",
     "settings": "Налады",
+    "billing": "PRO назаўсёды – $2",
     "backup": "Рэзервовае капіраванне",
     "importExport": "Імпарт/Экспарт",
     "autofillSettings": "Налады аўтазапаўнення",

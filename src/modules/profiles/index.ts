@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, setStorage } from '../storage';
 import { ProfilesStateSchema, type Profile, type ProfilesState } from '../../shared/types/profile';
+import { loadSettings } from '../unlock';
+import { getLimits, countProfileFields } from '../../shared/constants/limits';
 import {
   aesDecryptJson,
   aesEncryptJson,
@@ -60,13 +62,20 @@ export async function loadProfilesState(): Promise<ProfilesState> {
 
   let plain: unknown;
 
-  if (isEncryptedProfilesState(stored)) {
-    // Encrypted format
-    const key = await getProfilesKey();
-    plain = await aesDecryptJson<ProfilesState>(key, stored);
-  } else {
-    // Legacy plain format (pre-encryption)
-    plain = stored;
+  try {
+    if (isEncryptedProfilesState(stored)) {
+      // Encrypted format
+      const key = await getProfilesKey();
+      plain = await aesDecryptJson<ProfilesState>(key, stored);
+    } else {
+      // Legacy plain format (pre-encryption)
+      plain = stored;
+    }
+  } catch (decryptError) {
+    // If decryption fails, log but don't wipe data - return fallback without saving
+    console.error('Failed to decrypt profiles state:', decryptError);
+    const fallback: ProfilesState = { activeProfileId: null, profiles: [DEFAULT_PROFILE()] };
+    return fallback;
   }
 
   const parsed = ProfilesStateSchema.safeParse(plain);
@@ -78,8 +87,14 @@ export async function loadProfilesState(): Promise<ProfilesState> {
     return parsed.data;
   }
 
+  // CRITICAL: Don't overwrite existing data on parse error!
+  // Log the error but return fallback without saving to prevent data loss
+  console.error('Failed to parse profiles state:', parsed.error);
+  console.error('Raw data:', plain);
+  
+  // Only return fallback, don't save it - this prevents data loss
+  // If user has data but schema changed, we don't want to wipe it
   const fallback: ProfilesState = { activeProfileId: null, profiles: [DEFAULT_PROFILE()] };
-  await saveProfilesState(fallback);
   return fallback;
 }
 
@@ -110,6 +125,14 @@ export async function setActiveProfile(profileId: string): Promise<void> {
 
 export async function createProfile(partial?: Partial<Profile>): Promise<Profile> {
   const state = await loadProfilesState();
+
+  // Ограничение по количеству профилей для free плана
+  const settings = await loadSettings();
+  const limits = getLimits(settings.plan);
+  if (state.profiles.length >= limits.maxProfiles) {
+    throw new Error('MAX_PROFILES_REACHED');
+  }
+
   const profile: Profile = {
     id: uuidv4(),
     name: partial?.name?.trim() || `Profile ${state.profiles.length + 1}`,
@@ -126,7 +149,25 @@ export async function createProfile(partial?: Partial<Profile>): Promise<Profile
 
 export async function updateProfile(profileId: string, patch: Partial<Profile>): Promise<void> {
   const state = await loadProfilesState();
-  const profiles = state.profiles.map((p) => (p.id === profileId ? { ...p, ...patch, id: p.id } : p));
+
+  // Enforce field count limits when updating a profile (applies to UI, add-field-modal, etc.)
+  const settings = await loadSettings();
+  const limits = getLimits(settings.plan);
+
+  const profiles = state.profiles.map((p) => {
+    if (p.id !== profileId) return p;
+
+    const merged: Profile = { ...p, ...patch, id: p.id };
+    const fieldCount = countProfileFields(merged);
+
+    if (fieldCount > limits.maxFieldsPerProfile) {
+      // Do not mutate state, just signal an error
+      throw new Error('MAX_FIELDS_REACHED');
+    }
+
+    return merged;
+  });
+
   await saveProfilesState({ ...state, profiles });
 }
 
@@ -142,6 +183,14 @@ export async function deleteProfile(profileId: string): Promise<void> {
 
 export async function duplicateProfile(profileId: string): Promise<Profile> {
   const state = await loadProfilesState();
+
+  // Проверяем лимит профилей перед дублированием
+  const settings = await loadSettings();
+  const limits = getLimits(settings.plan);
+  if (state.profiles.length >= limits.maxProfiles) {
+    throw new Error('MAX_PROFILES_REACHED');
+  }
+
   const profile = state.profiles.find((p) => p.id === profileId);
   
   if (!profile) {
@@ -161,6 +210,14 @@ export async function duplicateProfile(profileId: string): Promise<Profile> {
   
   await saveProfilesState(next);
   return newProfile;
+}
+
+/**
+ * Reset all profiles to default (single empty profile)
+ */
+export async function resetProfilesToDefault(): Promise<void> {
+  const initial: ProfilesState = { activeProfileId: null, profiles: [DEFAULT_PROFILE()] };
+  await saveProfilesState(initial);
 }
 
 
