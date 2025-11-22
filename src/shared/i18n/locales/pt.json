@@ -62,7 +62,7 @@
     "searchProfiles": "Pesquisar perfis...",
     "noProfilesFound": "Nenhum perfil encontrado",
     "profileNameRequired": "O nome do perfil é obrigatório",
-    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
+    "freePlanHint": "Plano gratuito: até {{maxProfiles}} perfis e {{maxFields}} campos por perfil. Abra a guia Faturamento para atualizar."
   },
   "settings": {
     "title": "Configurações",
@@ -84,7 +84,17 @@
     "appSettings": "Configurações do aplicativo",
     "themeDescription": "Escolha claro, escuro ou automático (segue o sistema)",
     "language": "Idioma",
-    "languageDescription": "Escolha o idioma da interface"
+    "languageDescription": "Escolha o idioma da interface",
+    "encryptionTitle": "Criptografia local",
+    "encryptionDescription": "Os perfis são criptografados localmente neste dispositivo. Os dados nunca saem do seu navegador, a menos que você os exporte.",
+    "dangerZone": "Zona de perigo",
+    "resetToDefault": "Redefinir para padrão",
+    "resetDescription": "Isso excluirá todos os perfis e redefinirá todas as configurações para os valores padrão. Esta ação não pode ser desfeita.",
+    "resetConfirmTitle": "Redefinir para padrão?",
+    "resetConfirmMessage": "Tem certeza de que deseja redefinir todos os perfis e configurações para o padrão? Todos os seus dados serão excluídos permanentemente. Esta ação não pode ser desfeita.",
+    "resetConfirm": "Redefinir tudo",
+    "resetSuccess": "Todos os dados foram redefinidos para o padrão",
+    "resetError": "Falha ao redefinir dados"
   },
   "backup": {
     "title": "Backup",
@@ -129,11 +139,38 @@
   "app": {
     "profiles": "Perfis",
     "settings": "Configurações",
-    "billing": "PRO for life – $2",
+    "billing": "PRO vitalício – $2",
     "backup": "Backup",
     "importExport": "Importar/Exportar",
     "autofillSettings": "Configurações de preenchimento automático",
     "openInFullPage": "Abrir em janela completa"
+  },
+  "billing": {
+    "title": "Faturamento e Licença",
+    "description": "Pague uma vez e use o Autofill Pro em até 2 dispositivos. Você sempre pode doar mais para apoiar o desenvolvimento.",
+    "statusFree": "Plano gratuito",
+    "statusPro": "Plano Pro",
+    "emailLabel": "E-mail usado para pagamento",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "ID deste dispositivo",
+    "slotsInfo": "Dispositivos usados: {{used}} / {{total}}",
+    "payWithCard": "Pagar com cartão (Stripe)",
+    "activateThisDevice": "Ativar este dispositivo",
+    "refreshStatus": "Atualizar status",
+    "emailRequired": "Digite o e-mail que você usou/usará para pagamento",
+    "clientIdMissing": "ID do cliente está faltando. Tente reiniciar a extensão.",
+    "checkoutOpened": "Checkout aberto em uma nova aba",
+    "checkoutError": "Falha ao abrir checkout. Tente novamente mais tarde.",
+    "statusError": "Falha ao carregar status da licença",
+    "notFound": "Pagamento não encontrado para este e-mail ainda. Se você acabou de pagar, aguarde um pouco e tente novamente.",
+    "slotsExceeded": "A licença já foi usada em todos os dispositivos permitidos.",
+    "maxProfilesReached": "Limite do plano gratuito atingido: você só pode criar até 2 perfis. Abra a guia Faturamento para atualizar.",
+    "maxFieldsReached": "Limite do plano gratuito atingido: você só pode adicionar até 30 campos por perfil. Abra a guia Faturamento para atualizar.",
+    "notPro": "A licença para este e-mail não é Pro.",
+    "activateError": "Falha ao ativar este dispositivo",
+    "activated": "Este dispositivo está agora ativado como Pro",
+    "licenseRevoked": "Sua licença foi revogada neste dispositivo. Plano rebaixado para Gratuito.",
+    "hint": "Fluxo: digite o e-mail → pague no Stripe → volte aqui e pressione \"Ativar este dispositivo\" em cada navegador onde você usa a extensão."
   },
   "theme": {
     "light": "Claro",

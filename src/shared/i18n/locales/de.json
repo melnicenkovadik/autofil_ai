@@ -62,7 +62,7 @@
     "searchProfiles": "Profile suchen...",
     "noProfilesFound": "Keine Profile gefunden",
     "profileNameRequired": "Profilname ist erforderlich",
-    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
+    "freePlanHint": "Kostenloser Plan: bis zu {{maxProfiles}} Profile und {{maxFields}} Felder pro Profil. Öffnen Sie die Registerkarte Abrechnung zum Upgrade."
   },
   "settings": {
     "title": "Einstellungen",
@@ -84,7 +84,17 @@
     "appSettings": "App-Einstellungen",
     "themeDescription": "Wählen Sie hell, dunkel oder automatisch (folgt dem System)",
     "language": "Sprache",
-    "languageDescription": "Wählen Sie die Interface-Sprache"
+    "languageDescription": "Wählen Sie die Interface-Sprache",
+    "encryptionTitle": "Lokale Verschlüsselung",
+    "encryptionDescription": "Profile werden lokal auf diesem Gerät verschlüsselt. Daten verlassen Ihren Browser nie, es sei denn, Sie exportieren sie.",
+    "dangerZone": "Gefahrenzone",
+    "resetToDefault": "Auf Standard zurücksetzen",
+    "resetDescription": "Dies wird alle Profile löschen und alle Einstellungen auf die Standardwerte zurücksetzen. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "resetConfirmTitle": "Auf Standard zurücksetzen?",
+    "resetConfirmMessage": "Sind Sie sicher, dass Sie alle Profile und Einstellungen auf Standard zurücksetzen möchten? Alle Ihre Daten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "resetConfirm": "Alles zurücksetzen",
+    "resetSuccess": "Alle Daten wurden auf Standard zurückgesetzt",
+    "resetError": "Daten konnten nicht zurückgesetzt werden"
   },
   "backup": {
     "title": "Sicherung",
@@ -129,11 +139,38 @@
   "app": {
     "profiles": "Profile",
     "settings": "Einstellungen",
-    "billing": "PRO for life – $2",
+    "billing": "PRO lebenslang – $2",
     "backup": "Sicherung",
     "importExport": "Import/Export",
     "autofillSettings": "Einstellungen für automatische Vervollständigung",
     "openInFullPage": "In vollem Fenster öffnen"
+  },
+  "billing": {
+    "title": "Abrechnung & Lizenz",
+    "description": "Einmal zahlen und Autofill Pro auf bis zu 2 Geräten nutzen. Sie können jederzeit mehr spenden, um die Entwicklung zu unterstützen.",
+    "statusFree": "Kostenloser Plan",
+    "statusPro": "Pro-Plan",
+    "emailLabel": "Für die Zahlung verwendete E-Mail",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "Diese Geräte-ID",
+    "slotsInfo": "Verwendete Geräte: {{used}} / {{total}}",
+    "payWithCard": "Mit Karte zahlen (Stripe)",
+    "activateThisDevice": "Dieses Gerät aktivieren",
+    "refreshStatus": "Status aktualisieren",
+    "emailRequired": "Geben Sie die E-Mail ein, die Sie für die Zahlung verwendet haben/verwenden werden",
+    "clientIdMissing": "Client-ID fehlt. Versuchen Sie, die Erweiterung neu zu starten.",
+    "checkoutOpened": "Checkout in einem neuen Tab geöffnet",
+    "checkoutError": "Checkout konnte nicht geöffnet werden. Versuchen Sie es später erneut.",
+    "statusError": "Lizenzstatus konnte nicht geladen werden",
+    "notFound": "Zahlung für diese E-Mail noch nicht gefunden. Wenn Sie gerade bezahlt haben, warten Sie einen Moment und versuchen Sie es erneut.",
+    "slotsExceeded": "Lizenz wird bereits auf allen erlaubten Geräten verwendet.",
+    "maxProfilesReached": "Limit des kostenlosen Plans erreicht: Sie können nur bis zu 2 Profile erstellen. Öffnen Sie die Registerkarte Abrechnung zum Upgrade.",
+    "maxFieldsReached": "Limit des kostenlosen Plans erreicht: Sie können nur bis zu 30 Felder pro Profil hinzufügen. Öffnen Sie die Registerkarte Abrechnung zum Upgrade.",
+    "notPro": "Lizenz für diese E-Mail ist nicht Pro.",
+    "activateError": "Dieses Gerät konnte nicht aktiviert werden",
+    "activated": "Dieses Gerät ist jetzt als Pro aktiviert",
+    "licenseRevoked": "Ihre Lizenz wurde auf diesem Gerät widerrufen. Plan auf Kostenlos herabgestuft.",
+    "hint": "Ablauf: E-Mail eingeben → in Stripe bezahlen → hier zurückkehren und \"Dieses Gerät aktivieren\" in jedem Browser drücken, in dem Sie die Erweiterung verwenden."
   },
   "theme": {
     "light": "Hell",

@@ -61,7 +61,8 @@
     "typeLabel": "タイプ",
     "searchProfiles": "プロファイルを検索...",
     "noProfilesFound": "プロファイルが見つかりませんでした",
-    "profileNameRequired": "プロファイル名は必須です"
+    "profileNameRequired": "プロファイル名は必須です",
+    "freePlanHint": "無料プラン：最大 {{maxProfiles}} プロファイルと1プロファイルあたり {{maxFields}} フィールド。請求タブを開いてアップグレードしてください。"
   },
   "settings": {
     "title": "設定",
@@ -83,7 +84,17 @@
     "appSettings": "アプリ設定",
     "themeDescription": "ライト、ダーク、または自動（システムに従う）を選択",
     "language": "言語",
-    "languageDescription": "インターフェース言語を選択"
+    "languageDescription": "インターフェース言語を選択",
+    "encryptionTitle": "ローカル暗号化",
+    "encryptionDescription": "プロファイルはこのデバイス上でローカルに暗号化されます。データをエクスポートしない限り、ブラウザから離れることはありません。",
+    "dangerZone": "危険ゾーン",
+    "resetToDefault": "デフォルトにリセット",
+    "resetDescription": "これにより、すべてのプロファイルが削除され、すべての設定がデフォルト値にリセットされます。この操作は元に戻せません。",
+    "resetConfirmTitle": "デフォルトにリセットしますか？",
+    "resetConfirmMessage": "すべてのプロファイルと設定をデフォルトにリセットしてもよろしいですか？すべてのデータは完全に削除されます。この操作は元に戻せません。",
+    "resetConfirm": "すべてをリセット",
+    "resetSuccess": "すべてのデータがデフォルトにリセットされました",
+    "resetError": "データのリセットに失敗しました"
   },
   "backup": {
     "title": "バックアップ",
@@ -128,10 +139,38 @@
   "app": {
     "profiles": "プロファイル",
     "settings": "設定",
+    "billing": "PRO 永久 – $2",
     "backup": "バックアップ",
     "importExport": "インポート/エクスポート",
     "autofillSettings": "自動入力設定",
     "openInFullPage": "全画面ウィンドウで開く"
+  },
+  "billing": {
+    "title": "請求とライセンス",
+    "description": "一度支払えば、最大2台のデバイスでAutofill Proを使用できます。開発をサポートするためにさらに寄付することもできます。",
+    "statusFree": "無料プラン",
+    "statusPro": "Proプラン",
+    "emailLabel": "支払いに使用したメールアドレス",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "このデバイスID",
+    "slotsInfo": "使用デバイス：{{used}} / {{total}}",
+    "payWithCard": "カードで支払う（Stripe）",
+    "activateThisDevice": "このデバイスをアクティベート",
+    "refreshStatus": "ステータスを更新",
+    "emailRequired": "支払いに使用した/使用するメールアドレスを入力してください",
+    "clientIdMissing": "クライアントIDがありません。拡張機能を再起動してみてください。",
+    "checkoutOpened": "新しいタブで決済ページが開きました",
+    "checkoutError": "決済ページを開けませんでした。後でもう一度お試しください。",
+    "statusError": "ライセンスステータスの読み込みに失敗しました",
+    "notFound": "このメールアドレスの支払いがまだ見つかりません。支払ったばかりの場合は、少し待ってから再試行してください。",
+    "slotsExceeded": "ライセンスはすでにすべての許可されたデバイスで使用されています。",
+    "maxProfilesReached": "無料プラン制限に達しました：最大2つのプロファイルしか作成できません。請求タブを開いてアップグレードしてください。",
+    "maxFieldsReached": "無料プラン制限に達しました：プロファイルごとに最大30フィールドしか追加できません。請求タブを開いてアップグレードしてください。",
+    "notPro": "このメールアドレスのライセンスはProではありません。",
+    "activateError": "このデバイスをアクティベートできませんでした",
+    "activated": "このデバイスがProとしてアクティベートされました",
+    "licenseRevoked": "このデバイスでライセンスが取り消されました。プランが無料にダウングレードされました。",
+    "hint": "フロー：メールアドレスを入力 → Stripeで支払い → ここに戻り、拡張機能を使用する各ブラウザで「このデバイスをアクティベート」を押してください。"
   },
   "theme": {
     "light": "ライト",

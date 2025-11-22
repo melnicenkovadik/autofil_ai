@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autofil Extension – Compact Demo Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #050816;
+      --bg-soft: rgba(15, 23, 42, 0.78);
+      --card: rgba(15, 23, 42, 0.92);
+      --border: rgba(148, 163, 184, 0.35);
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.12);
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --input-bg: rgba(15, 23, 42, 0.9);
+      --shadow-soft: 0 24px 80px rgba(15, 23, 42, 0.85);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.35), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(45, 212, 191, 0.3), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(251, 191, 36, 0.25), transparent 55%),
+        var(--bg);
+      color: var(--text-main);
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1320px;
+      border-radius: 28px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(148, 163, 184, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(96, 165, 250, 0.18), transparent 55%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.7;
+    }
+
+    .shell-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 14px 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.45), transparent 65%);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      margin-bottom: 16px;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .traffic {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.7);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+    .dot.dot-close { background: #f97373; }
+    .dot.dot-min { background: #facc15; }
+    .dot.dot-max { background: #4ade80; }
+
+    .title {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .title h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 211, 153, 0.8);
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(6, 182, 212, 0.18));
+      color: #bbf7d0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-soft);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .hint strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1.15fr 1.1fr 0.95fr;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 0 0, rgba(17, 24, 39, 0.95), transparent 60%);
+      border: 1px solid rgba(55, 65, 81, 0.85);
+      position: relative;
+      z-index: 1;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card {
+      padding: 10px 11px 11px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(75, 85, 99, 0.85);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .card-pill {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      color: #e5e7eb;
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95));
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-soft);
+      letter-spacing: 0.02em;
+    }
+
+    .label-main {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 7px 8px;
+      border-radius: 9px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 11px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.8), 0 0 0 1px rgba(15, 23, 42, 0.8);
+      background: radial-gradient(circle at 0 0, rgba(22, 163, 74, 0.14), var(--input-bg));
+    }
+
+    input[type="color"] {
+      padding: 0;
+      height: 30px;
+    }
+
+    input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      padding: 0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 56px;
+      max-height: 88px;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 10px;
+      opacity: 0.9;
+    }
+
+    .card-footer {
+      margin-top: 7px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .pill-success {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #bbf7d0;
+      border: 1px solid rgba(45, 212, 191, 0.5);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .pill-muted {
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(31, 41, 55, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 10px;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1100px) {
+      body { padding: 16px; }
+      .shell { padding: 14px 14px 16px; }
+      .content {
+        grid-template-columns: 1fr;
+        max-height: none;
+      }
+      .shell {
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="shell-header">
+      <div class="traffic">
+        <span class="dot dot-close"></span>
+        <span class="dot dot-min"></span>
+        <span class="dot dot-max"></span>
+      </div>
+      <div class="title">
+        <h1>Autofil Extension – Demo Form</h1>
+        <span class="badge">Chrome Web Store Preview</span>
+        <span class="subtitle">All key profile fields on a single compact screen</span>
+      </div>
+      <div class="hint">
+        Press <strong>Autofill hotkey</strong> to populate this page
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Column 1: Personal & Contact -->
+      <div class="column">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Personal</span>
+            <span class="card-pill">Core Identity</span>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="full-name">
+                <span class="label-main">Full Name</span>
+                <span class="mono"> · fullName</span>
+              </label>
+              <input
+                id="full-name"
+                name="full_name"
+                autocomplete="name"
+                placeholder="John Michael Doe"
+              />
+            </div>
+            <div class="field">
+              <label for="first-name">
+                <span class="label-main">First Name</span>
+                <span class="mono"> · firstName</span>
+              </label>
+              <input
+                id="first-name"
+                name="first_name"
+                autocomplete="given-name"
+                placeholder="John"
+              />
+            </div>
+            <div class="field">
+              <label for="middle-name">
+                <span class="label-main">Middle Name</span>
+                <span class="mono"> · middleName</span>
+              </label>
+              <input
+                id="middle-name"
+                name="middle_name"
+                placeholder="Michael"
+              />
+            </div>
+            <div class="field">
+              <label for="last-name">
+                <span class="label-main">Last Name</span>
+                <span class="mono"> · lastName</span>
+              </label>
+              <input
+                id="last-name"
+                name="last_name"
+                autocomplete="family-name"
+                placeholder="Doe"
+              />
+            </div>
+            <div class="field">
+              <label for="dob">
+                <span class="label-main">Date of Birth</span>
+                <span class="mono"> · dateOfBirth</span>
+              </label>
+              <input
+                id="dob"
+                name="birth_date"
+                type="date"
+                autocomplete="bday"
+              />
+            </div>
+            <div class="field">
+              <label for="gender">
+                <span class="label-main">Gender</span>
+                <span class="mono"> · gender</span>
+              </label>
+              <input
+                id="gender"
+                name="gender"
+                placeholder="Female / Male / Other"
+              />
+            </div>
+          </div>
+          <div class="card-footer">
+            <span>Personal profile info</span>
+            <span class="pill-success">Profile → Personal</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Contact</span>
+            <span class="card-pill">Email & Phone</span>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="primary-email">
+                <span class="label-main">Primary Email</span>
+                <span class="mono"> · emailPrimary</span>
+              </label>
+              <input
+                id="primary-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="john@doe.com"
+              />
+            </div>
+            <div class="field">
+              <label for="alt-email">
+                <span class="label-main">Alternate Email</span>
+                <span class="mono"> · emailAlt</span>
+              </label>
+              <input
+                id="alt-email"
+                name="alternate_email"
+                type="email"
+                placeholder="backup.email@example.com"
+              />
+            </div>
+            <div class="field">
+              <label for="primary-phone">
+                <span class="label-main">Primary Phone</span>
+                <span class="mono"> · phonePrimary</span>
+              </label>
+              <input
+                id="primary-phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                placeholder="+1 555 123 4567"
+              />
+            </div>
+            <div class="field">
+              <label for="alt-phone">
+                <span class="label-main">Alternate Phone</span>
+                <span class="mono"> · phoneAlt</span>
+              </label>
+              <input
+                id="alt-phone"
+                name="alternate_phone"
+                type="tel"
+                placeholder="+1 555 987 6543"
+              />
+            </div>
+          </div>
+          <div class="card-footer">
+            <span>All contact channels</span>
+            <span class="pill-success">Profile → Contact</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Address & Work -->
+      <div class="column">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Address</span>
+            <span class="card-pill">Shipping / Billing</span>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="address-line1">
+                <span class="label-main">Address Line 1</span>
+                <span class="mono"> · addressLine1</span>
+              </label>
+              <input
+                id="address-line1"
+                name="address_line1"
+                autocomplete="street-address"
+                placeholder="221B Baker Street"
+              />
+            </div>
+            <div class="field">
+              <label for="address-line2">
+                <span class="label-main">Address Line 2</span>
+                <span class="mono"> · addressLine2</span>
+              </label>
+              <input
+                id="address-line2"
+                name="address_line2"
+                placeholder="Apartment 4A"
+              />
+            </div>
+            <div class="field">
+              <label for="city">
+                <span class="label-main">City</span>
+                <span class="mono"> · city</span>
+              </label>
+              <input
+                id="city"
+                name="city"
+                autocomplete="address-level2"
+                placeholder="London"
+              />
+            </div>
+            <div class="field">
+              <label for="region">
+                <span class="label-main">Region / State</span>
+                <span class="mono"> · region</span>
+              </label>
+              <input
+                id="region"
+                name="region"
+                autocomplete="address-level1"
+                placeholder="Greater London"
+              />
+            </div>
+            <div class="field">
+              <label for="postal-code">
+                <span class="label-main">Postal Code</span>
+                <span class="mono"> · postalCode</span>
+              </label>
+              <input
+                id="postal-code"
+                name="postal_code"
+                autocomplete="postal-code"
+                placeholder="NW16XE"
+              />
+            </div>
+            <div class="field">
+              <label for="country">
+                <span class="label-main">Country</span>
+                <span class="mono"> · country</span>
+              </label>
+              <input
+                id="country"
+                name="country"
+                autocomplete="country-name"
+                placeholder="United Kingdom"
+              />
+            </div>
+          </div>
+          <div class="card-footer">
+            <span>Standard web form layout</span>
+            <span class="pill-success">Profile → Address</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Work</span>
+            <span class="card-pill">Company Profile</span>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="company">
+                <span class="label-main">Company</span>
+                <span class="mono"> · company</span>
+              </label>
+              <input
+                id="company"
+                name="company"
+                autocomplete="organization"
+                placeholder="ACME Inc."
+              />
+            </div>
+            <div class="field">
+              <label for="position">
+                <span class="label-main">Position</span>
+                <span class="mono"> · position</span>
+              </label>
+              <input
+                id="position"
+                name="job_title"
+                autocomplete="organization-title"
+                placeholder="Senior Product Manager"
+              />
+            </div>
+            <div class="field">
+              <label for="website">
+                <span class="label-main">Website</span>
+                <span class="mono"> · website</span>
+              </label>
+              <input
+                id="website"
+                name="website"
+                type="url"
+                autocomplete="url"
+                placeholder="https://example.com"
+              />
+            </div>
+            <div class="field">
+              <label for="work-notes">
+                <span class="label-main">Short Bio / Notes</span>
+              </label>
+              <textarea
+                id="work-notes"
+                name="work_notes"
+                placeholder="Quick introduction used for job applications..."
+              ></textarea>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span>Used on career and signup pages</span>
+            <span class="pill-success">Profile → Work</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: Social & Security -->
+      <div class="column">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Social</span>
+            <span class="card-pill">Public Links</span>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="telegram">
+                <span class="label-main">Telegram Handle</span>
+                <span class="mono"> · telegram</span>
+              </label>
+              <input
+                id="telegram"
+                name="telegram"
+                placeholder="@john"
+              />
+            </div>
+            <div class="field">
+              <label for="linkedin">
+                <span class="label-main">LinkedIn URL</span>
+                <span class="mono"> · linkedin</span>
+              </label>
+              <input
+                id="linkedin"
+                name="linkedin"
+                placeholder="https://linkedin.com/in/johndoe"
+              />
+            </div>
+            <div class="field">
+              <label for="github">
+                <span class="label-main">GitHub Username</span>
+                <span class="mono"> · github</span>
+              </label>
+              <input
+                id="github"
+                name="github"
+                placeholder="johndoe"
+              />
+            </div>
+            <div class="field">
+              <label for="extra-social">
+                <span class="label-main">Other Profile Link</span>
+              </label>
+              <input
+                id="extra-social"
+                name="extra_social"
+                placeholder="Twitter, portfolio, or any other profile"
+              />
+            </div>
+          </div>
+          <div class="card-footer">
+            <span>Everything that is publicly visible</span>
+            <span class="pill-muted">Optional</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Security</span>
+            <span class="card-pill">Auth & Preferences</span>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="username">
+                <span class="label-main">Username</span>
+              </label>
+              <input
+                id="username"
+                name="username"
+                autocomplete="username"
+                placeholder="johndoe"
+              />
+            </div>
+            <div class="field">
+              <label for="password">
+                <span class="label-main">Password</span>
+                <span class="mono"> · password</span>
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="••••••••"
+              />
+            </div>
+            <div class="field">
+              <label for="favorite-color">
+                <span class="label-main">Favorite Color</span>
+              </label>
+              <input
+                id="favorite-color"
+                name="favorite_color"
+                type="color"
+                value="#22c55e"
+              />
+            </div>
+            <div class="field">
+              <label for="marketing-optin">
+                <span class="label-main">Marketing Emails</span>
+              </label>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <input
+                  id="marketing-optin"
+                  name="marketing_optin"
+                  type="checkbox"
+                />
+                <label for="marketing-optin" style="margin: 0; font-size: 11px; color: var(--text-soft);">
+                  I agree to receive product updates
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span>Good for login and signup flows</span>
+            <span class="pill-success">Profile → Security</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
