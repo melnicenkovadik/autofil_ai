@@ -62,7 +62,7 @@
     "searchProfiles": "Szukaj profili...",
     "noProfilesFound": "Nie znaleziono profili",
     "profileNameRequired": "Nazwa profilu jest wymagana",
-    "freePlanHint": "Darmowy plan: do {{maxProfiles}} profili i {{maxFields}} pól na profil. Otwórz kartę Rozliczenia, aby uaktualnić."
+    "freePlanHint": "Darmowy plan: do {{maxProfiles}} profili i {{maxFields}} pól na profil. Otwórz kartę Rozliczenia, aby ulepszyć."
   },
   "settings": {
     "title": "Ustawienia",
@@ -84,7 +84,17 @@
     "appSettings": "Ustawienia aplikacji",
     "themeDescription": "Wybierz jasny, ciemny lub automatyczny (zgodny z systemem)",
     "language": "Język",
-    "languageDescription": "Wybierz język interfejsu"
+    "languageDescription": "Wybierz język interfejsu",
+    "encryptionTitle": "Lokalne szyfrowanie",
+    "encryptionDescription": "Profile są szyfrowane lokalnie na tym urządzeniu. Dane nigdy nie opuszczają przeglądarki, chyba że je wyeksportujesz.",
+    "dangerZone": "Strefa niebezpieczna",
+    "resetToDefault": "Przywróć domyślne",
+    "resetDescription": "Spowoduje to usunięcie wszystkich profili i przywrócenie wszystkich ustawień do wartości domyślnych. Tej akcji nie można cofnąć.",
+    "resetConfirmTitle": "Przywrócić domyślne?",
+    "resetConfirmMessage": "Czy na pewno chcesz przywrócić wszystkie profile i ustawienia do wartości domyślnych? Wszystkie dane zostaną trwale usunięte. Tej akcji nie można cofnąć.",
+    "resetConfirm": "Przywróć wszystko",
+    "resetSuccess": "Wszystkie dane zostały przywrócone do wartości domyślnych",
+    "resetError": "Nie udało się przywrócić danych"
   },
   "backup": {
     "title": "Kopia zapasowa",
@@ -134,6 +144,33 @@
     "importExport": "Import/Eksport",
     "autofillSettings": "Ustawienia automatycznego wypełniania",
     "openInFullPage": "Otwórz w pełnym oknie"
+  },
+  "billing": {
+    "title": "Rozliczenia i licencja",
+    "description": "Zapłać raz i używaj Autofill Pro na maksymalnie 2 urządzeniach. Zawsze możesz przekazać więcej, aby wesprzeć rozwój.",
+    "statusFree": "Plan darmowy",
+    "statusPro": "Plan Pro",
+    "emailLabel": "E-mail użyty do płatności",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "ID tego urządzenia",
+    "slotsInfo": "Użyte urządzenia: {{used}} / {{total}}",
+    "payWithCard": "Zapłać kartą (Stripe)",
+    "activateThisDevice": "Aktywuj to urządzenie",
+    "refreshStatus": "Odśwież status",
+    "emailRequired": "Wprowadź e-mail, którego użyłeś/użyjesz do płatności",
+    "clientIdMissing": "Brak ID klienta. Spróbuj ponownie uruchomić rozszerzenie.",
+    "checkoutOpened": "Kasa otwarta w nowej karcie",
+    "checkoutError": "Nie udało się otworzyć kasy. Spróbuj ponownie później.",
+    "statusError": "Nie udało się załadować statusu licencji",
+    "notFound": "Płatność dla tego e-maila nie została jeszcze znaleziona. Jeśli właśnie zapłaciłeś, poczekaj chwilę i spróbuj ponownie.",
+    "slotsExceeded": "Licencja została już użyta na wszystkich dozwolonych urządzeniach.",
+    "maxProfilesReached": "Osiągnięto limit darmowego planu: możesz utworzyć tylko do 2 profili. Otwórz kartę Rozliczenia, aby ulepszyć.",
+    "maxFieldsReached": "Osiągnięto limit darmowego planu: możesz dodać tylko do 30 pól na profil. Otwórz kartę Rozliczenia, aby ulepszyć.",
+    "notPro": "Licencja dla tego e-maila nie jest Pro.",
+    "activateError": "Nie udało się aktywować tego urządzenia",
+    "activated": "To urządzenie jest teraz aktywowane jako Pro",
+    "licenseRevoked": "Twoja licencja została cofnięta na tym urządzeniu. Plan obniżony do Darmowego.",
+    "hint": "Przebieg: wprowadź e-mail → zapłać w Stripe → wróć tutaj i naciśnij \"Aktywuj to urządzenie\" w każdej przeglądarce, w której używasz rozszerzenia."
   },
   "theme": {
     "light": "Jasny",

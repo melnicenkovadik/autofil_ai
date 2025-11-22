@@ -30,4 +30,6 @@ npm-debug.log*
 
 # Testing
 coverage/
+
+# Separate repository (cloned for convenience)
 autofil-payments/

@@ -62,7 +62,7 @@
     "searchProfiles": "Rechercher des profils...",
     "noProfilesFound": "Aucun profil trouvé",
     "profileNameRequired": "Le nom du profil est requis",
-    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
+    "freePlanHint": "Plan gratuit : jusqu'à {{maxProfiles}} profils et {{maxFields}} champs par profil. Ouvrez l'onglet Facturation pour mettre à niveau."
   },
   "settings": {
     "title": "Paramètres",
@@ -84,7 +84,17 @@
     "appSettings": "Paramètres de l'application",
     "themeDescription": "Choisissez clair, sombre ou automatique (suit le système)",
     "language": "Langue",
-    "languageDescription": "Choisissez la langue de l'interface"
+    "languageDescription": "Choisissez la langue de l'interface",
+    "encryptionTitle": "Chiffrement local",
+    "encryptionDescription": "Les profils sont chiffrés localement sur cet appareil. Les données ne quittent jamais votre navigateur sauf si vous les exportez.",
+    "dangerZone": "Zone dangereuse",
+    "resetToDefault": "Réinitialiser aux valeurs par défaut",
+    "resetDescription": "Cela supprimera tous les profils et réinitialisera tous les paramètres aux valeurs par défaut. Cette action ne peut pas être annulée.",
+    "resetConfirmTitle": "Réinitialiser aux valeurs par défaut ?",
+    "resetConfirmMessage": "Êtes-vous sûr de vouloir réinitialiser tous les profils et paramètres par défaut ? Toutes vos données seront définitivement supprimées. Cette action ne peut pas être annulée.",
+    "resetConfirm": "Tout réinitialiser",
+    "resetSuccess": "Toutes les données ont été réinitialisées par défaut",
+    "resetError": "Échec de la réinitialisation des données"
   },
   "backup": {
     "title": "Sauvegarde",
@@ -129,11 +139,38 @@
   "app": {
     "profiles": "Profils",
     "settings": "Paramètres",
-    "billing": "PRO for life – $2",
+    "billing": "PRO à vie – $2",
     "backup": "Sauvegarde",
     "importExport": "Import/Export",
     "autofillSettings": "Paramètres de remplissage automatique",
     "openInFullPage": "Ouvrir en plein écran"
+  },
+  "billing": {
+    "title": "Facturation et licence",
+    "description": "Payez une fois et utilisez Autofill Pro sur jusqu'à 2 appareils. Vous pouvez toujours faire un don supplémentaire pour soutenir le développement.",
+    "statusFree": "Plan gratuit",
+    "statusPro": "Plan Pro",
+    "emailLabel": "E-mail utilisé pour le paiement",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "ID de cet appareil",
+    "slotsInfo": "Appareils utilisés : {{used}} / {{total}}",
+    "payWithCard": "Payer par carte (Stripe)",
+    "activateThisDevice": "Activer cet appareil",
+    "refreshStatus": "Actualiser le statut",
+    "emailRequired": "Saisissez l'e-mail que vous avez utilisé/utiliserez pour le paiement",
+    "clientIdMissing": "L'ID client est manquant. Essayez de redémarrer l'extension.",
+    "checkoutOpened": "Paiement ouvert dans un nouvel onglet",
+    "checkoutError": "Échec de l'ouverture du paiement. Réessayez plus tard.",
+    "statusError": "Échec du chargement du statut de la licence",
+    "notFound": "Paiement introuvable pour cet e-mail pour le moment. Si vous venez de payer, attendez un peu et réessayez.",
+    "slotsExceeded": "La licence est déjà utilisée sur tous les appareils autorisés.",
+    "maxProfilesReached": "Limite du plan gratuit atteinte : vous ne pouvez créer que jusqu'à 2 profils. Ouvrez l'onglet Facturation pour mettre à niveau.",
+    "maxFieldsReached": "Limite du plan gratuit atteinte : vous ne pouvez ajouter que jusqu'à 30 champs par profil. Ouvrez l'onglet Facturation pour mettre à niveau.",
+    "notPro": "La licence pour cet e-mail n'est pas Pro.",
+    "activateError": "Échec de l'activation de cet appareil",
+    "activated": "Cet appareil est maintenant activé en tant que Pro",
+    "licenseRevoked": "Votre licence a été révoquée sur cet appareil. Plan rétrogradé en Gratuit.",
+    "hint": "Flux : saisissez l'e-mail → payez dans Stripe → revenez ici et appuyez sur \"Activer cet appareil\" sur chaque navigateur où vous utilisez l'extension."
   },
   "theme": {
     "light": "Clair",

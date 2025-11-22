@@ -62,7 +62,7 @@
     "searchProfiles": "搜索配置文件...",
     "noProfilesFound": "未找到配置文件",
     "profileNameRequired": "配置文件名称是必需的",
-    "freePlanHint": "免费计划：最多 {{maxProfiles}} 个配置文件和每个配置文件最多 {{maxFields}} 个字段。打开 Billing 标签页以升级。"
+    "freePlanHint": "免费计划：最多 {{maxProfiles}} 个配置文件和每个配置文件最多 {{maxFields}} 个字段。打开计费标签页以升级。"
   },
   "settings": {
     "title": "设置",
@@ -84,7 +84,17 @@
     "appSettings": "应用设置",
     "themeDescription": "选择浅色、深色或自动（跟随系统）",
     "language": "语言",
-    "languageDescription": "选择界面语言"
+    "languageDescription": "选择界面语言",
+    "encryptionTitle": "本地加密",
+    "encryptionDescription": "配置文件在此设备上本地加密。数据永远不会离开您的浏览器，除非您导出它。",
+    "dangerZone": "危险区域",
+    "resetToDefault": "重置为默认",
+    "resetDescription": "这将删除所有配置文件并将所有设置重置为默认值。此操作无法撤销。",
+    "resetConfirmTitle": "重置为默认？",
+    "resetConfirmMessage": "您确定要将所有配置文件和设置重置为默认吗？所有数据将被永久删除。此操作无法撤销。",
+    "resetConfirm": "重置所有",
+    "resetSuccess": "所有数据已重置为默认",
+    "resetError": "重置数据失败"
   },
   "backup": {
     "title": "备份",
@@ -129,11 +139,38 @@
   "app": {
     "profiles": "配置文件",
     "settings": "设置",
-    "billing": "PRO for life – $2",
+    "billing": "PRO 终身 – $2",
     "backup": "备份",
     "importExport": "导入/导出",
     "autofillSettings": "自动填充设置",
     "openInFullPage": "在全屏窗口中打开"
+  },
+  "billing": {
+    "title": "计费和许可证",
+    "description": "一次付费，在最多 2 台设备上使用 Autofill Pro。您可以随时捐赠更多以支持开发。",
+    "statusFree": "免费计划",
+    "statusPro": "Pro 计划",
+    "emailLabel": "用于付款的电子邮件",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "此设备 ID",
+    "slotsInfo": "已使用设备：{{used}} / {{total}}",
+    "payWithCard": "使用卡支付（Stripe）",
+    "activateThisDevice": "激活此设备",
+    "refreshStatus": "刷新状态",
+    "emailRequired": "输入您用于/将用于付款的电子邮件",
+    "clientIdMissing": "客户端 ID 缺失。尝试重新启动扩展。",
+    "checkoutOpened": "结账页面在新标签页中打开",
+    "checkoutError": "无法打开结账。请稍后再试。",
+    "statusError": "无法加载许可证状态",
+    "notFound": "尚未找到此电子邮件的付款。如果您刚刚付款，请稍等片刻再试。",
+    "slotsExceeded": "许可证已在所有允许的设备上使用。",
+    "maxProfilesReached": "免费计划限制已达到：您只能创建最多 2 个配置文件。打开计费标签页以升级。",
+    "maxFieldsReached": "免费计划限制已达到：您只能为每个配置文件添加最多 30 个字段。打开计费标签页以升级。",
+    "notPro": "此电子邮件的许可证不是 Pro。",
+    "activateError": "无法激活此设备",
+    "activated": "此设备现已激活为 Pro",
+    "licenseRevoked": "您的许可证已在此设备上被撤销。计划降级为免费。",
+    "hint": "流程：输入电子邮件 → 在 Stripe 中付款 → 返回此处并在您使用扩展的每个浏览器上按\"激活此设备\"。"
   },
   "theme": {
     "light": "浅色",

@@ -62,7 +62,7 @@
     "searchProfiles": "Cerca profili...",
     "noProfilesFound": "Nessun profilo trovato",
     "profileNameRequired": "Il nome del profilo è obbligatorio",
-    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
+    "freePlanHint": "Piano gratuito: fino a {{maxProfiles}} profili e {{maxFields}} campi per profilo. Apri la scheda Fatturazione per l'aggiornamento."
   },
   "settings": {
     "title": "Impostazioni",
@@ -84,7 +84,17 @@
     "appSettings": "Impostazioni app",
     "themeDescription": "Scegli chiaro, scuro o automatico (segue il sistema)",
     "language": "Lingua",
-    "languageDescription": "Scegli la lingua dell'interfaccia"
+    "languageDescription": "Scegli la lingua dell'interfaccia",
+    "encryptionTitle": "Crittografia locale",
+    "encryptionDescription": "I profili sono crittografati localmente su questo dispositivo. I dati non lasciano mai il tuo browser a meno che non li esporti.",
+    "dangerZone": "Zona pericolosa",
+    "resetToDefault": "Ripristina predefinito",
+    "resetDescription": "Questo eliminerà tutti i profili e ripristinerà tutte le impostazioni ai valori predefiniti. Questa azione non può essere annullata.",
+    "resetConfirmTitle": "Ripristina predefinito?",
+    "resetConfirmMessage": "Sei sicuro di voler ripristinare tutti i profili e le impostazioni predefinite? Tutti i tuoi dati saranno eliminati permanentemente. Questa azione non può essere annullata.",
+    "resetConfirm": "Ripristina tutto",
+    "resetSuccess": "Tutti i dati sono stati ripristinati ai valori predefiniti",
+    "resetError": "Impossibile ripristinare i dati"
   },
   "backup": {
     "title": "Backup",
@@ -129,11 +139,38 @@
   "app": {
     "profiles": "Profili",
     "settings": "Impostazioni",
-    "billing": "PRO for life – $2",
+    "billing": "PRO a vita – $2",
     "backup": "Backup",
     "importExport": "Importa/Esporta",
     "autofillSettings": "Impostazioni riempimento automatico",
     "openInFullPage": "Apri in finestra intera"
+  },
+  "billing": {
+    "title": "Fatturazione e Licenza",
+    "description": "Paga una volta e usa Autofill Pro su fino a 2 dispositivi. Puoi sempre donare di più per supportare lo sviluppo.",
+    "statusFree": "Piano gratuito",
+    "statusPro": "Piano Pro",
+    "emailLabel": "Email usata per il pagamento",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "ID di questo dispositivo",
+    "slotsInfo": "Dispositivi usati: {{used}} / {{total}}",
+    "payWithCard": "Paga con carta (Stripe)",
+    "activateThisDevice": "Attiva questo dispositivo",
+    "refreshStatus": "Aggiorna stato",
+    "emailRequired": "Inserisci l'email che hai usato/userai per il pagamento",
+    "clientIdMissing": "L'ID cliente manca. Prova a riavviare l'estensione.",
+    "checkoutOpened": "Checkout aperto in una nuova scheda",
+    "checkoutError": "Impossibile aprire il checkout. Riprova più tardi.",
+    "statusError": "Impossibile caricare lo stato della licenza",
+    "notFound": "Pagamento non trovato per questa email ancora. Se hai appena pagato, aspetta un po' e riprova.",
+    "slotsExceeded": "La licenza è già usata su tutti i dispositivi consentiti.",
+    "maxProfilesReached": "Limite piano gratuito raggiunto: puoi creare solo fino a 2 profili. Apri la scheda Fatturazione per aggiornare.",
+    "maxFieldsReached": "Limite piano gratuito raggiunto: puoi aggiungere solo fino a 30 campi per profilo. Apri la scheda Fatturazione per aggiornare.",
+    "notPro": "La licenza per questa email non è Pro.",
+    "activateError": "Impossibile attivare questo dispositivo",
+    "activated": "Questo dispositivo è ora attivato come Pro",
+    "licenseRevoked": "La tua licenza è stata revocata su questo dispositivo. Piano degradato a Gratuito.",
+    "hint": "Flusso: inserisci email → paga in Stripe → torna qui e premi \"Attiva questo dispositivo\" su ogni browser dove usi l'estensione."
   },
   "theme": {
     "light": "Chiaro",

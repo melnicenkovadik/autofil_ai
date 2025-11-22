@@ -62,7 +62,7 @@
     "searchProfiles": "Cari profil...",
     "noProfilesFound": "Tidak ada profil yang ditemukan",
     "profileNameRequired": "Nama profil wajib diisi",
-    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
+    "freePlanHint": "Paket gratis: hingga {{maxProfiles}} profil dan {{maxFields}} bidang per profil. Buka tab Penagihan untuk meningkatkan."
   },
   "settings": {
     "title": "Pengaturan",
@@ -84,7 +84,17 @@
     "appSettings": "Pengaturan aplikasi",
     "themeDescription": "Pilih terang, gelap, atau otomatis (mengikuti sistem)",
     "language": "Bahasa",
-    "languageDescription": "Pilih bahasa antarmuka"
+    "languageDescription": "Pilih bahasa antarmuka",
+    "encryptionTitle": "Enkripsi lokal",
+    "encryptionDescription": "Profil dienkripsi secara lokal di perangkat ini. Data tidak pernah meninggalkan browser Anda kecuali Anda mengekspornya.",
+    "dangerZone": "Zona berbahaya",
+    "resetToDefault": "Reset ke default",
+    "resetDescription": "Ini akan menghapus semua profil dan mereset semua pengaturan ke nilai default. Tindakan ini tidak dapat dibatalkan.",
+    "resetConfirmTitle": "Reset ke default?",
+    "resetConfirmMessage": "Apakah Anda yakin ingin mereset semua profil dan pengaturan ke default? Semua data Anda akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.",
+    "resetConfirm": "Reset semua",
+    "resetSuccess": "Semua data telah direset ke default",
+    "resetError": "Gagal mereset data"
   },
   "backup": {
     "title": "Cadangan",
@@ -129,11 +139,38 @@
   "app": {
     "profiles": "Profil",
     "settings": "Pengaturan",
-    "billing": "PRO for life – $2",
+    "billing": "PRO selamanya – $2",
     "backup": "Cadangan",
     "importExport": "Impor/Ekspor",
     "autofillSettings": "Pengaturan autofill",
     "openInFullPage": "Buka di jendela penuh"
+  },
+  "billing": {
+    "title": "Penagihan & Lisensi",
+    "description": "Bayar sekali dan gunakan Autofill Pro pada hingga 2 perangkat. Anda selalu dapat menyumbang lebih banyak untuk mendukung pengembangan.",
+    "statusFree": "Paket gratis",
+    "statusPro": "Paket Pro",
+    "emailLabel": "Email yang digunakan untuk pembayaran",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "ID perangkat ini",
+    "slotsInfo": "Perangkat yang digunakan: {{used}} / {{total}}",
+    "payWithCard": "Bayar dengan kartu (Stripe)",
+    "activateThisDevice": "Aktifkan perangkat ini",
+    "refreshStatus": "Perbarui status",
+    "emailRequired": "Masukkan email yang Anda gunakan/akan gunakan untuk pembayaran",
+    "clientIdMissing": "ID klien hilang. Coba restart ekstensi.",
+    "checkoutOpened": "Checkout dibuka di tab baru",
+    "checkoutError": "Gagal membuka checkout. Coba lagi nanti.",
+    "statusError": "Gagal memuat status lisensi",
+    "notFound": "Pembayaran untuk email ini belum ditemukan. Jika Anda baru saja membayar, tunggu sebentar dan coba lagi.",
+    "slotsExceeded": "Lisensi sudah digunakan di semua perangkat yang diizinkan.",
+    "maxProfilesReached": "Batas paket gratis tercapai: Anda hanya dapat membuat hingga 2 profil. Buka tab Penagihan untuk meningkatkan.",
+    "maxFieldsReached": "Batas paket gratis tercapai: Anda hanya dapat menambahkan hingga 30 bidang per profil. Buka tab Penagihan untuk meningkatkan.",
+    "notPro": "Lisensi untuk email ini bukan Pro.",
+    "activateError": "Gagal mengaktifkan perangkat ini",
+    "activated": "Perangkat ini sekarang diaktifkan sebagai Pro",
+    "licenseRevoked": "Lisensi Anda dicabut di perangkat ini. Paket diturunkan ke Gratis.",
+    "hint": "Alur: masukkan email → bayar di Stripe → kembali ke sini dan tekan \"Aktifkan perangkat ini\" di setiap browser tempat Anda menggunakan ekstensi."
   },
   "theme": {
     "light": "Terang",

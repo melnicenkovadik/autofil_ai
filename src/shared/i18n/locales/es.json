@@ -62,7 +62,7 @@
     "searchProfiles": "Buscar perfiles...",
     "noProfilesFound": "No se encontraron perfiles",
     "profileNameRequired": "El nombre del perfil es obligatorio",
-    "freePlanHint": "Free plan: up to {{maxProfiles}} profiles and {{maxFields}} fields per profile. Open the Billing tab to upgrade."
+    "freePlanHint": "Plan gratuito: hasta {{maxProfiles}} perfiles y {{maxFields}} campos por perfil. Abra la pestaña Facturación para actualizar."
   },
   "settings": {
     "title": "Configuración",
@@ -84,7 +84,17 @@
     "appSettings": "Configuración de la aplicación",
     "themeDescription": "Elija claro, oscuro o automático (sigue al sistema)",
     "language": "Idioma",
-    "languageDescription": "Elija el idioma de la interfaz"
+    "languageDescription": "Elija el idioma de la interfaz",
+    "encryptionTitle": "Cifrado local",
+    "encryptionDescription": "Los perfiles se cifran localmente en este dispositivo. Los datos nunca salen de su navegador a menos que los exporte.",
+    "dangerZone": "Zona de peligro",
+    "resetToDefault": "Restablecer valores predeterminados",
+    "resetDescription": "Esto eliminará todos los perfiles y restablecerá todas las configuraciones a los valores predeterminados. Esta acción no se puede deshacer.",
+    "resetConfirmTitle": "¿Restablecer valores predeterminados?",
+    "resetConfirmMessage": "¿Está seguro de que desea restablecer todos los perfiles y configuraciones a los valores predeterminados? Todos sus datos se eliminarán permanentemente. Esta acción no se puede deshacer.",
+    "resetConfirm": "Restablecer todo",
+    "resetSuccess": "Todos los datos se han restablecido a los valores predeterminados",
+    "resetError": "Error al restablecer datos"
   },
   "backup": {
     "title": "Copia de seguridad",
@@ -129,11 +139,42 @@
   "app": {
     "profiles": "Perfiles",
     "settings": "Configuración",
-    "billing": "PRO for life – $2",
+    "billing": "PRO de por vida – $2",
     "backup": "Copia de seguridad",
     "importExport": "Importar/Exportar",
     "autofillSettings": "Configuración de autocompletado",
     "openInFullPage": "Abrir en ventana completa"
+  },
+  "billing": {
+    "title": "Facturación y licencia",
+    "description": "Pague una vez y use Autofill Pro en hasta 2 navegadores al mismo tiempo. Siempre puede donar más para apoyar el desarrollo.",
+    "statusFree": "Plan gratuito",
+    "statusPro": "Plan Pro",
+    "emailLabel": "Correo electrónico usado para el pago",
+    "emailPlaceholder": "you@example.com",
+    "clientIdLabel": "ID de licencia (este navegador)",
+    "slotsInfo": "Navegadores activados: {{used}} / {{total}}",
+    "payWithCard": "Pagar con tarjeta",
+    "activateThisDevice": "Activar licencia en este navegador",
+    "deactivateThisDevice": "Desactivar licencia en este navegador",
+    "refreshStatus": "Actualizar estado",
+    "emailRequired": "Ingrese el correo electrónico que usó/usará para el pago",
+    "clientIdMissing": "Falta el ID del cliente. Intente reiniciar la extensión.",
+    "checkoutOpened": "Pago abierto en una nueva pestaña",
+    "checkoutError": "Error al abrir el pago. Inténtelo de nuevo más tarde.",
+    "statusError": "Error al cargar el estado de la licencia",
+    "notFound": "Pago no encontrado para este correo electrónico aún. Si acaba de pagar, espere un momento e inténtelo de nuevo.",
+    "slotsExceeded": "La licencia ya se usó en todos los dispositivos permitidos.",
+    "maxProfilesReached": "Límite del plan gratuito alcanzado: solo puede crear hasta 2 perfiles. Abra la pestaña Facturación para actualizar.",
+    "maxFieldsReached": "Límite del plan gratuito alcanzado: solo puede agregar hasta 30 campos por perfil. Abra la pestaña Facturación para actualizar.",
+    "notPro": "La licencia para este correo electrónico no es Pro.",
+    "activateError": "Error al activar la licencia en este navegador",
+    "activated": "La licencia ahora está activa en este navegador",
+    "deactivateError": "Error al desactivar la licencia en este navegador",
+    "deactivated": "La licencia en este navegador ha sido desactivada. Ahora puede activarla en otro navegador.",
+    "licenseRevoked": "Su licencia fue revocada en este navegador. Plan degradado a gratuito.",
+    "emailLinkedHint": "Su licencia Pro está vinculada a su correo electrónico y puede estar activa en hasta 2 navegadores al mismo tiempo.",
+    "hint": "Flujo 1 (tarjeta): ingrese el correo electrónico → haga clic en \"Pagar con tarjeta\" → complete el pago → regrese aquí y pulse \"Activar licencia en este navegador\".\nFlujo 2 (cripto): ingrese el mismo correo electrónico → haga clic en \"Pagar con Telegram (CryptoBot)\" → complete el pago → regrese aquí y pulse \"Activar licencia en este navegador\"."
   },
   "theme": {
     "light": "Claro",
