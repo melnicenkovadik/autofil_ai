@@ -12,6 +12,11 @@ export default defineConfig({
     server: {
       port: 3000,
       strictPort: true,
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3000,
+      },
     },
     resolve: {
       alias: {
@@ -27,6 +32,20 @@ export default defineConfig({
     version: '0.1.0',
     author: 'Your Name',
     homepage_url: 'https://github.com/yourusername/autofil_extension',
+    icons: {
+      16: 'icon-16.png',
+      32: 'icon-32.png',
+      48: 'icon-48.png',
+      128: 'icon-128.png',
+    },
+    action: {
+      default_icon: {
+        16: 'icon-16.png',
+        32: 'icon-32.png',
+        48: 'icon-48.png',
+        128: 'icon-128.png',
+      },
+    },
     permissions: ['storage', 'activeTab', 'scripting', 'tabs'],
     host_permissions: ['<all_urls>', 'http://localhost/*'],
     web_accessible_resources: [

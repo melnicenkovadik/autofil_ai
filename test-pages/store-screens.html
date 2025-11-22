@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autofill Pro – Chrome Store Screens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f3f4f6;
+      --bg-card: #ffffff;
+      --bg-muted: #f9fafb;
+      --border-subtle: #e5e7eb;
+      --text-main: #111827;
+      --text-soft: #6b7280;
+      --accent: #6366f1; /* indigo-500 */
+      --accent-soft: #e0e7ff;
+      --accent-blue: #0ea5e9;
+      --accent-green: #22c55e;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.14);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 20px 64px;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.12), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
+        linear-gradient(to bottom, #f9fafb, #e5e7eb);
+      color: var(--text-main);
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 2.25rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+    }
+
+    .screens-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .screen {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 24px;
+      padding: 22px 22px 26px;
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      /* Make each mockup close to 1280×800 when captured */
+      min-height: 800px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 18px;
+      gap: 8px;
+    }
+
+    .screen-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .screen-tag {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #4f46e5;
+      font-weight: 500;
+    }
+
+    .screen-note {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .screen-body {
+      background: var(--bg-muted);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(209, 213, 219, 0.8);
+      flex: 1;
+      min-height: 720px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Common UI primitives */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      padding: 18px 20px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      background: rgba(15, 23, 42, 0.04);
+      color: var(--text-soft);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      color: #ffffff;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.02);
+      color: var(--text-soft);
+      border: 1px solid rgba(209, 213, 219, 0.9);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .field-label {
+      font-size: 1rem;
+      color: #4b5563;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .field-input {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 12px 14px;
+      font-size: 1.05rem;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    .field-input.filled {
+      background: #eef2ff;
+      border-color: #4f46e5;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .field-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .field-chip {
+      flex: 1;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(129, 140, 248, 0.08), rgba(59, 130, 246, 0.08));
+      border: 1px solid rgba(129, 140, 248, 0.35);
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffffff;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      gap: 16px;
+    }
+
+    .toggle-label {
+      font-size: 1.05rem;
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .toggle-sub {
+      font-size: 0.95rem;
+      color: #6b7280;
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    .toggle {
+      width: 40px;
+      height: 22px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+    }
+
+    .toggle-knob {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
+      transform: translateX(0);
+    }
+
+    .toggle.on {
+      background: #4ade80;
+      justify-content: flex-end;
+    }
+
+    .shield {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f9fafb, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.35);
+      font-size: 1.2rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.9rem;
+      background: rgba(16, 185, 129, 0.08);
+      color: #047857;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      font-weight: 600;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Screenshot 1 – Main screen */
+    .s1-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 24px;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+    }
+
+    .s1-sidebar {
+      border-radius: var(--radius-md);
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 20px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .s1-logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .logo-mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 9px;
+      background: radial-gradient(circle at 30% 20%, #e0f2fe, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: white;
+      font-weight: 600;
+      font-family: "Poppins", system-ui, sans-serif;
+    }
+
+    .logo-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .profile-pill {
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1rem;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .profile-pill span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .s1-main {
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 24px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .s1-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .s1-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .s1-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    .s1-fields-grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 20px;
+      flex: 1;
+    }
+
+    .s1-banner {
+      margin-top: 12px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.12), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.12), transparent 55%),
+                  #0f172a;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+    }
+
+    .s1-banner-cta {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .s1-banner > div:first-child > div:last-child {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* Screenshot 2 – Autofill */
+    .s2-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+    }
+
+    .s2-page {
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 24px 26px 28px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .s2-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      font-weight: 500;
+    }
+
+    .s2-url {
+      border-radius: 999px;
+      background: #f3f4f6;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+    }
+
+    .s2-form {
+      max-width: 100%;
+      margin-top: 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .s2-form-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .s2-tooltip {
+      border-radius: 999px;
+      background: #111827;
+      color: #f9fafb;
+      padding: 14px 24px;
+      font-size: 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.5);
+      white-space: nowrap;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .s2-tooltip kbd {
+      font-size: 1rem;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-weight: 700;
+    }
+
+    .s2-before-after {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      line-height: 1.7;
+    }
+
+    .s2-chip {
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 1rem;
+      background: #f3f4f6;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+
+    /* Screenshot 3 – AI Field Detection */
+    .s3-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+      gap: 24px;
+      align-items: stretch;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+    }
+
+    .s3-bg-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.08), transparent 60%),
+                  #0f172a;
+      padding: 24px 26px;
+      color: #e5e7eb;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .s3-mini-panel {
+      position: absolute;
+      right: 24px;
+      bottom: 20px;
+      width: 300px;
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(129, 140, 248, 0.5);
+      padding: 16px 18px;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.8);
+    }
+
+    .s3-mini-panel .field-chip span {
+      color: rgba(255, 255, 255, 0.95) !important;
+      font-size: 1.05rem !important;
+      font-weight: 500;
+    }
+
+    .s3-mini-panel .field-chip span:last-child {
+      font-size: 0.95rem !important;
+      font-weight: 600;
+    }
+
+    .s3-ai-tag {
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.98rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #e0f2fe;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .s3-right {
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 24px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .s3-right-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .s3-right > div:not(.s3-right-title) {
+      font-size: 1.15rem;
+      color: var(--text-soft);
+      line-height: 1.8;
+    }
+
+    .s3-bullets {
+      margin: 14px 0 0;
+      padding-left: 24px;
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      line-height: 1.9;
+    }
+
+    /* Screenshot 4 – Security & Local Storage */
+    .s4-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr);
+      gap: 24px;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+    }
+
+    .s4-settings {
+      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 24px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .s4-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .s4-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .s4-title > div:last-child > div:last-child {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    .s4-right-panel {
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at 20% 0%, rgba(129, 140, 248, 0.16), transparent 55%),
+                  #0f172a;
+      padding: 28px 26px;
+      color: #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .s4-big-text {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .s4-right-panel > div:first-child > div:last-child {
+      font-size: 1.2rem;
+      color: #cbd5f5;
+      max-width: 300px;
+      line-height: 1.8;
+    }
+
+    .s4-right-panel > div:last-child {
+      font-size: 1.05rem;
+      color: #e5e7eb;
+      opacity: 0.9;
+      line-height: 1.7;
+    }
+
+    /* Screenshot 5 – Import / Export */
+    .s5-layout {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: #e5e7eb;
+      overflow: hidden;
+      padding: 24px;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .s5-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #f9fafb, #d1d5db);
+      border: 1px solid #e5e7eb;
+    }
+
+    .s5-modal {
+      position: relative;
+      z-index: 1;
+      width: 420px;
+      max-width: 90%;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.4);
+      padding: 24px 26px 22px;
+    }
+
+    .s5-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .s5-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .s5-files {
+      margin-top: 14px;
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px dashed #d1d5db;
+      padding: 16px 16px 14px;
+      font-size: 1.05rem;
+      color: #4b5563;
+      line-height: 1.7;
+    }
+
+    .s5-file-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .s5-file-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .s5-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #4f46e5;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 20px 14px 40px;
+      }
+      .screen {
+        padding: 18px 16px 20px;
+        min-height: auto;
+      }
+      .screen-body {
+        padding: 14px;
+        min-height: 0;
+      }
+      .s1-layout,
+      .s2-layout,
+      .s3-layout,
+      .s4-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .s5-modal {
+        width: 92%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header-title">Autofill Pro – Store Screens</div>
+      <div class="header-subtitle">
+        Static mockups for Chrome Web Store screenshots (1–5). Zoom to 100% and capture each card.
+      </div>
+    </header>
+
+    <main class="screens-grid">
+      <!-- Screenshot 1 – Main Screen -->
+      <section class="screen" id="screen-1">
+        <div class="screen-header">
+          <div class="screen-title">
+            <span>Screenshot 1 — Main screen</span>
+            <span class="screen-tag">Manage profiles</span>
+          </div>
+          <div class="screen-note">Light UI • Soft shadows • Indigo / blue accents</div>
+        </div>
+        <div class="screen-body">
+          <div class="s1-layout">
+            <!-- Sidebar / profiles list -->
+            <aside class="s1-sidebar">
+              <div class="s1-logo-row">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="logo-mark">A</div>
+                  <div class="logo-text">Autofill&nbsp;Pro</div>
+                </div>
+                <span class="pill">
+                  <span class="pill-dot"></span>
+                  Active
+                </span>
+              </div>
+              <div class="profile-pill">
+                <span>
+                  <span style="width:8px;height:8px;border-radius:999px;background:#22c55e;"></span>
+                  Personal profile
+                </span>
+                <span style="font-size:0.7rem;color:#6b7280;">Default</span>
+              </div>
+              <div class="profile-pill" style="background:#f9fafb;border-color:#e5e7eb;">
+                <span>
+                  <span style="width:8px;height:8px;border-radius:999px;background:#4b5563;"></span>
+                  Work / Hiring
+                </span>
+                <span style="font-size:0.7rem;color:#9ca3af;">Switch</span>
+              </div>
+              <button class="btn btn-ghost" style="margin-top:4px;justify-content:flex-start;width:100%;">
+                + New profile
+              </button>
+            </aside>
+
+            <!-- Main card -->
+            <section class="s1-main">
+              <div class="s1-header-row">
+                <div>
+                  <div class="s1-title">Manage your profiles easily</div>
+                  <div class="s1-subtitle">All your personal, work and freelance data in one clean dashboard.</div>
+                </div>
+                <button class="btn btn-primary">
+                  + Add field
+                </button>
+              </div>
+
+              <div class="s1-fields-grid">
+                <div class="field">
+                  <div class="field-label">Full name</div>
+                  <div class="field-input filled">John Doe</div>
+                </div>
+                <div class="field">
+                  <div class="field-label">Primary email</div>
+                  <div class="field-input filled">john.doe@company.com</div>
+                </div>
+                <div class="field">
+                  <div class="field-label">Phone</div>
+                  <div class="field-input filled">+1 (555) 123-4567</div>
+                </div>
+                <div class="field">
+                  <div class="field-label">Company</div>
+                  <div class="field-input filled">Acme Inc.</div>
+                </div>
+                <div class="field">
+                  <div class="field-label">City</div>
+                  <div class="field-input filled">San Francisco</div>
+                </div>
+                <div class="field">
+                  <div class="field-label">LinkedIn</div>
+                  <div class="field-input filled">linkedin.com/in/johndoe</div>
+                </div>
+              </div>
+
+              <div class="s1-banner">
+                <div>
+                  <div class="s1-banner-cta">Profiles for every scenario.</div>
+                  <div style="font-size:0.95rem;opacity:0.9;line-height:1.6;">Switch between personal, work and side projects in one click.</div>
+                </div>
+                <button class="btn btn-primary" style="padding:7px 14px;font-size:0.78rem;">
+                  Use in form
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screenshot 2 – Autofill -->
+      <section class="screen" id="screen-2">
+        <div class="screen-header">
+          <div class="screen-title">
+            <span>Screenshot 2 — Autofill in action</span>
+            <span class="screen-tag">Form fill</span>
+          </div>
+          <div class="screen-note">Website page • Highlighted fields • “Before / After” layout</div>
+        </div>
+        <div class="screen-body">
+          <div class="s2-layout">
+            <!-- Website page -->
+            <div class="s2-page">
+              <div class="s2-nav">
+                <div class="s2-url">https://careers.example.com/apply</div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span style="width:8px;height:8px;border-radius:999px;background:#22c55e;"></span>
+                  <span>Autofill Pro active</span>
+                </div>
+              </div>
+              <div style="display:flex;gap:18px;">
+                <div style="flex:1;">
+                  <div style="height:10px;width:140px;border-radius:999px;background:#e5e7eb;margin-bottom:10px;"></div>
+                  <div style="height:8px;width:100px;border-radius:999px;background:#e5e7eb;margin-bottom:18px;"></div>
+                  <div style="height:6px;width:80%;border-radius:999px;background:#e5e7eb;margin-bottom:6px;"></div>
+                  <div style="height:6px;width:60%;border-radius:999px;background:#e5e7eb;margin-bottom:6px;"></div>
+                  <div style="height:6px;width:72%;border-radius:999px;background:#e5e7eb;"></div>
+                </div>
+                <div class="s2-form">
+                  <div class="field">
+                    <div class="field-label">Full name</div>
+                    <div class="field-input">──────</div>
+                  </div>
+                  <div class="field">
+                    <div class="field-label">Email</div>
+                    <div class="field-input filled">john.doe@example.com</div>
+                  </div>
+                  <div class="field">
+                    <div class="field-label">Phone</div>
+                    <div class="field-input filled">+1 (555) 123-4567</div>
+                  </div>
+                  <div class="s2-form-row" style="margin-top:6px;align-items:center;justify-content:space-between;">
+                    <button class="btn btn-primary">
+                      Autofill form
+                    </button>
+                    <div class="s2-tooltip">
+                      <span>Autofill in one click</span>
+                      <kbd>Alt+Shift+F</kbd>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="s2-before-after">
+                <div>
+                  <div class="s2-chip">
+                    <span style="width:7px;height:7px;border-radius:999px;background:#9ca3af;"></span>
+                    Before
+                  </div>
+                  <div style="margin-top:10px;font-size:1.05rem;line-height:1.7;">
+                    Empty fields, repetitive typing on every application.
+                  </div>
+                </div>
+                <div>
+                  <div class="s2-chip">
+                    <span style="width:7px;height:7px;border-radius:999px;background:#22c55e;"></span>
+                    After (Autofill)
+                  </div>
+                  <div style="margin-top:10px;font-size:1.05rem;line-height:1.7;">
+                    All fields filled instantly from your active profile.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Spacer / commentary card -->
+            <div class="card" style="background:#f9fafb;border-style:dashed;">
+              <div style="font-size:1.25rem;font-weight:600;margin-bottom:12px;">How to frame the screenshot</div>
+              <div style="font-size:1.1rem;color:var(--text-soft);line-height:1.8;">
+                Capture the left "website page" area at 100% zoom so that:
+                <ul style="margin:12px 0 0 24px;padding:0;line-height:1.9;">
+                  <li>Tooltip "Autofill in one click" is clearly visible</li>
+                  <li>One or two fields look "empty", others "filled"</li>
+                  <li>Keyboard shortcut can be read without zooming</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screenshot 3 – AI Field Detection -->
+      <section class="screen" id="screen-3">
+        <div class="screen-header">
+          <div class="screen-title">
+            <span>Screenshot 3 — AI Field Detection</span>
+            <span class="screen-tag">AI mapping</span>
+          </div>
+          <div class="screen-note">Gradient highlight • Icons • Right-side explanation</div>
+        </div>
+        <div class="screen-body">
+          <div class="s3-layout">
+            <!-- Background interface -->
+            <div class="s3-bg-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="logo-mark" style="background:radial-gradient(circle at 30% 20%,#fef9c3,#06b6d4);">A</div>
+                  <div style="font-size:0.98rem;font-weight:600;">Autofill Pro · AI assist</div>
+                </div>
+                <div class="badge">
+                  <span class="badge-dot"></span>
+                  AI classification enabled
+                </div>
+              </div>
+              <div style="height:6px;width:55%;border-radius:999px;background:rgba(148,163,184,0.35);margin-bottom:6px;"></div>
+              <div style="height:6px;width:38%;border-radius:999px;background:rgba(148,163,184,0.3);"></div>
+
+              <div class="s3-mini-panel">
+                <div class="s3-ai-tag">
+                  <span style="width:8px;height:8px;border-radius:999px;background:#22c55e;"></span>
+                  AI matched fields
+                </div>
+                <!-- Three AI-highlighted rows -->
+                <div class="field-row">
+                  <div class="field-icon">✉</div>
+                  <div class="field-chip">
+                    <span>Email field detected</span>
+                    <span style="font-size:0.95rem;color:rgba(255,255,255,0.8);font-weight:600;">95%</span>
+                  </div>
+                </div>
+                <div class="field-row">
+                  <div class="field-icon">🏙</div>
+                  <div class="field-chip" style="border-color:rgba(59,130,246,0.6);">
+                    <span>Address &amp; city</span>
+                    <span style="font-size:0.95rem;color:rgba(255,255,255,0.8);font-weight:600;">AI assist</span>
+                  </div>
+                </div>
+                <div class="field-row">
+                  <div class="field-icon">📞</div>
+                  <div class="field-chip">
+                    <span>Phone number</span>
+                    <span style="font-size:0.95rem;color:rgba(255,255,255,0.8);font-weight:600;">E.164</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right explanation column -->
+            <aside class="s3-right">
+              <div class="s3-right-title">AI field detection</div>
+              <div style="font-size:1.15rem;color:var(--text-soft);line-height:1.8;margin-bottom:8px;">
+                Autofill Pro uses heuristics + optional AI to understand even unusual field labels.
+              </div>
+              <ul class="s3-bullets">
+                <li>Highlights detected fields with a soft gradient glow</li>
+                <li>Icons for email, address, phone improve readability</li>
+                <li>Confidence indicator shows when AI helped</li>
+              </ul>
+              <div style="margin-top:16px;font-size:1.05rem;color:var(--text-soft);line-height:1.7;">
+                Tip for designers: keep the left panel slightly blurred in promo images, and the three AI rows sharp and bright.
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screenshot 4 – Security & Local Storage -->
+      <section class="screen" id="screen-4">
+        <div class="screen-header">
+          <div class="screen-title">
+            <span>Screenshot 4 — Security &amp; Local Storage</span>
+            <span class="screen-tag">Privacy</span>
+          </div>
+          <div class="screen-note">Settings screen • Shield icon • Toggles • “100% Local Data Storage”</div>
+        </div>
+        <div class="screen-body">
+          <div class="s4-layout">
+            <!-- Settings column -->
+            <section class="s4-settings">
+              <div class="s4-header-row">
+                <div class="s4-title">
+                  <div class="shield">🛡</div>
+                  <div>
+                    <div>Security &amp; Privacy</div>
+                    <div style="font-size:0.95rem;color:var(--text-soft);line-height:1.6;">Control how your data is stored and protected.</div>
+                  </div>
+                </div>
+                <span class="badge" style="font-size:0.9rem;">
+                  <span class="badge-dot"></span>
+                  AES-256 at rest
+                </span>
+              </div>
+
+              <div style="margin-top:4px;">
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Lock extension when idle</div>
+                    <div class="toggle-sub">Auto-lock after a short period of inactivity.</div>
+                  </div>
+                  <div class="toggle on">
+                    <div class="toggle-knob"></div>
+                  </div>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Store data locally only</div>
+                    <div class="toggle-sub">No cloud sync, no external servers.</div>
+                  </div>
+                  <div class="toggle on">
+                    <div class="toggle-knob"></div>
+                  </div>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Allow AI classification</div>
+                    <div class="toggle-sub">AI only sees field labels, not your data.</div>
+                  </div>
+                  <div class="toggle">
+                    <div class="toggle-knob"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Right panel with main claim -->
+            <aside class="s4-right-panel">
+              <div>
+                <div class="s4-big-text">100% Local Data Storage</div>
+                <div style="font-size:1.2rem;color:#cbd5f5;max-width:300px;line-height:1.8;">
+                  Profiles, settings and backups never leave your browser. No external servers, no analytics, no tracking.
+                </div>
+              </div>
+              <div style="font-size:1.05rem;color:#e5e7eb;opacity:0.9;line-height:1.7;">
+                Perfect for privacy‑focused users, legal, HR and anyone working with sensitive data.
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screenshot 5 – Import / Export -->
+      <section class="screen" id="screen-5">
+        <div class="screen-header">
+          <div class="screen-title">
+            <span>Screenshot 5 — Import / Export</span>
+            <span class="screen-tag">Backup</span>
+          </div>
+          <div class="screen-note">Modal • JSON export / import • Mock files</div>
+        </div>
+        <div class="screen-body">
+          <div class="s5-layout">
+            <div class="s5-backdrop"></div>
+            <div class="s5-modal">
+              <div class="s5-header">
+                <div class="s5-title">Import / Export profiles</div>
+                <div class="pill">
+                  <span class="pill-dot"></span>
+                  Safe backup
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;margin-bottom:8px;">
+                <button class="btn btn-primary" style="flex:1;justify-content:center;">
+                  Export JSON
+                </button>
+                <button class="btn btn-ghost" style="flex:1;justify-content:center;">
+                  Import JSON
+                </button>
+              </div>
+              <div style="font-size:1.1rem;color:#6b7280;margin-bottom:14px;line-height:1.7;">
+                Backup all profiles and settings to a single, portable JSON file.
+              </div>
+              <div class="s5-files">
+                <div class="s5-file-row">
+                  <div class="s5-file-name">
+                    <span class="s5-dot"></span>
+                    <span>profiles-backup-2025-01-12.json</span>
+                  </div>
+                  <span style="font-size:0.72rem;color:#6b7280;">2.3 KB</span>
+                </div>
+                <div class="s5-file-row">
+                  <div class="s5-file-name">
+                    <span class="s5-dot" style="background:#10b981;"></span>
+                    <span>work-accounts.json</span>
+                  </div>
+                  <span style="font-size:0.72rem;color:#6b7280;">1.1 KB</span>
+                </div>
+                <div class="s5-file-row">
+                  <div class="s5-file-name">
+                    <span class="s5-dot" style="background:#f97316;"></span>
+                    <span>old-import-archive.json</span>
+                  </div>
+                  <span style="font-size:0.72rem;color:#6b7280;">0.8 KB</span>
+                </div>
+              </div>
+              <div style="margin-top:12px;font-size:1rem;color:#6b7280;display:flex;align-items:center;gap:10px;line-height:1.7;">
+                <span style="width:10px;height:10px;border-radius:999px;background:#22c55e;"></span>
+                <span>All backups stay on this device. You choose when and where to move them.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+
+

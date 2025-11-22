@@ -1,4 +1,4 @@
-import { createTheme, MantineColorsTuple, type MantineTheme } from '@mantine/core';
+import { createTheme, MantineColorsTuple } from '@mantine/core';
 
 // Very Peri (Pantone 2025) - periwinkle blue to violet-red
 const primaryColor: MantineColorsTuple = [
@@ -117,18 +117,10 @@ export const theme = createTheme({
         root: {
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           borderColor: 'rgba(147, 112, 255, 0.15)',
-          '&[data-mantine-color-scheme="dark"]': {
-            borderColor: 'rgba(255, 255, 255, 0.12)',
-            borderWidth: '1.5px',
-          },
           '&:hover': {
             transform: 'translateY(-3px)',
             boxShadow: '0 12px 24px rgba(147, 112, 255, 0.2), 0 24px 48px rgba(255, 79, 176, 0.15)',
             borderColor: 'rgba(147, 112, 255, 0.3)',
-          },
-          '[data-mantine-color-scheme="dark"] &:hover': {
-            boxShadow: '0 12px 24px rgba(0, 0, 0, 0.4), 0 24px 48px rgba(0, 0, 0, 0.3)',
-            borderColor: 'rgba(255, 255, 255, 0.2)',
           },
         },
       }),
@@ -147,14 +139,6 @@ export const theme = createTheme({
             boxShadow: '0 0 0 2px rgba(147, 112, 255, 0.1)',
           },
         },
-        '[data-mantine-color-scheme="dark"] & input': {
-          borderColor: 'rgba(255, 255, 255, 0.15)',
-          borderWidth: '1.5px',
-          '&:focus': {
-            borderColor: 'rgba(147, 112, 255, 0.6)',
-            boxShadow: '0 0 0 2px rgba(147, 112, 255, 0.2)',
-          },
-        },
       }),
     },
     
@@ -171,14 +155,6 @@ export const theme = createTheme({
             boxShadow: '0 0 0 2px rgba(147, 112, 255, 0.1)',
           },
         },
-        '[data-mantine-color-scheme="dark"] & input': {
-          borderColor: 'rgba(255, 255, 255, 0.15)',
-          borderWidth: '1.5px',
-          '&:focus': {
-            borderColor: 'rgba(147, 112, 255, 0.6)',
-            boxShadow: '0 0 0 2px rgba(147, 112, 255, 0.2)',
-          },
-        },
       }),
     },
     
@@ -193,14 +169,6 @@ export const theme = createTheme({
           '&:focus': {
             borderColor: 'rgba(147, 112, 255, 0.5)',
             boxShadow: '0 0 0 2px rgba(147, 112, 255, 0.1)',
-          },
-        },
-        '[data-mantine-color-scheme="dark"] & input': {
-          borderColor: 'rgba(255, 255, 255, 0.15)',
-          borderWidth: '1.5px',
-          '&:focus': {
-            borderColor: 'rgba(147, 112, 255, 0.6)',
-            boxShadow: '0 0 0 2px rgba(147, 112, 255, 0.2)',
           },
         },
       }),
@@ -223,15 +191,8 @@ export const theme = createTheme({
         content: {
           boxShadow: '0 20px 40px rgba(147, 112, 255, 0.3), 0 30px 60px rgba(255, 79, 176, 0.2)',
         },
-        '[data-mantine-color-scheme="dark"] & content': {
-          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 30px 60px rgba(0, 0, 0, 0.4)',
-          border: '1.5px solid rgba(255, 255, 255, 0.12)',
-        },
         header: {
           borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-        },
-        '[data-mantine-color-scheme="dark"] & header': {
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         },
       }),
     },
@@ -245,10 +206,6 @@ export const theme = createTheme({
       styles: () => ({
         root: {
           borderColor: 'rgba(0, 0, 0, 0.08)',
-        },
-        '[data-mantine-color-scheme="dark"] & root': {
-          borderColor: 'rgba(255, 255, 255, 0.12)',
-          borderWidth: '1.5px',
         },
       }),
     },
@@ -268,21 +225,9 @@ export const theme = createTheme({
             background: 'rgba(147, 112, 255, 0.05)',
           },
         },
-        '[data-mantine-color-scheme="dark"] & tab': {
-          '&[data-active]': {
-            background: 'linear-gradient(135deg, rgba(147, 112, 255, 0.15), rgba(255, 79, 176, 0.15))',
-            borderBottomColor: 'rgba(147, 112, 255, 0.6)',
-          },
-          '&:hover': {
-            background: 'rgba(147, 112, 255, 0.08)',
-          },
-        },
         list: {
           borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
           paddingBottom: '8px',
-        },
-        '[data-mantine-color-scheme="dark"] & list': {
-          borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
         },
       }),
     },
