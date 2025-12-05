@@ -26,8 +26,6 @@ All data is stored locally in your browser using Chrome's `chrome.storage.local`
 
 - **storage**: Required to save your profiles and settings locally
 - **activeTab**: Required to access form fields on the current page
-- **scripting**: Required to fill form fields with your data
-- **tabs**: Required to open the options page in a new tab
 - **<all_urls>**: Required to work on any website with forms
 
 ## Data Sharing
