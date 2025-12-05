@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last updated: [Date]**
+**Last updated: January 2025**
 
 ## Data Collection
 
@@ -34,5 +34,5 @@ We do not share, sell, or transmit your data to any third parties.
 
 ## Contact
 
-If you have questions about this privacy policy, please contact us at [your-email@example.com]
+If you have questions about this privacy policy, please contact us at support@autofil-payments.vercel.app
 
