@@ -29,7 +29,7 @@ export default defineConfig({
   manifest: {
     name: 'Autofill - Smart Form Filler',
     description: 'Fast autofill for forms with profiles, hotkeys, and optional AI. Supports files, custom fields, import/export.',
-    version: '0.1.2',
+    version: '0.1.8',
     author: 'Your Name',
     homepage_url: 'https://github.com/yourusername/autofil_extension',
     icons: {
